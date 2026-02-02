@@ -5,6 +5,8 @@ import {
   Typography,
   Box,
   Container,
+  Checkbox,
+  FormControlLabel,
   IconButton,
   Tooltip,
   Dialog,
@@ -33,6 +35,7 @@ import {
   Terminal as TerminalIcon,
   PhotoCameraOutlined as PhotoCameraIcon,
   Info,
+  UploadFile as UploadIcon,
 } from '@mui/icons-material';
 import { toSvg } from 'html-to-image';
 import { getNodesBounds } from '@xyflow/react';
@@ -40,6 +43,7 @@ import { useTopologyStore } from '../lib/store';
 import { exportToYaml, downloadYaml } from '../lib/converter';
 import { validateNetworkTopology, type ValidationResult } from '../lib/validate';
 import { TITLE, ERROR_DISPLAY_DURATION_MS } from '../lib/constants';
+import containerlabJsonToNetworkTopologyCrd from '../lib/containerlab';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -90,6 +94,55 @@ export default function AppLayout({ children }: AppLayoutProps) {
   const [validationDialogOpen, setValidationDialogOpen] = useState(false);
   const [displayedError, setDisplayedError] = useState<string | null>(null);
   const [aboutDialogOpen, setAboutDialogOpen] = useState(false);
+  const importFromYaml = useTopologyStore((state) => state.importFromYaml);
+  const fileInputRef = (null as unknown) as HTMLInputElement | null;
+  const [importDialogOpen, setImportDialogOpen] = useState(false);
+  const [pendingParsedJson, setPendingParsedJson] = useState<any | null>(null);
+  const [includeProductionAddr, setIncludeProductionAddr] = useState(true);
+
+  const handleImportClick = () => {
+    // trigger file input click
+    const el = document.getElementById('topo-import-input') as HTMLInputElement | null;
+    el?.click();
+  };
+
+  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    try {
+      const text = await file.text();
+      const parsed = JSON.parse(text);
+      setPendingParsedJson(parsed);
+      setImportDialogOpen(true);
+    } catch (err: unknown) {
+      setError((err as Error)?.message || 'Failed to parse file');
+    } finally {
+      // reset input
+      const el = document.getElementById('topo-import-input') as HTMLInputElement | null;
+      if (el) el.value = '';
+    }
+  };
+
+  const handleImportConfirm = () => {
+    if (!pendingParsedJson) {
+      setImportDialogOpen(false);
+      return;
+    }
+    try {
+      const yaml = containerlabJsonToNetworkTopologyCrd(pendingParsedJson, includeProductionAddr);
+      const ok = importFromYaml(yaml, { forceCreate: true });
+      if (!ok) setError('Failed to import topology');
+    } catch (e: unknown) {
+      setError((e as Error)?.message || 'Import failed');
+    }
+    setPendingParsedJson(null);
+    setImportDialogOpen(false);
+  };
+
+  const handleImportCancel = () => {
+    setPendingParsedJson(null);
+    setImportDialogOpen(false);
+  };
 
   useEffect(() => {
     if (error) {
@@ -194,6 +247,12 @@ export default function AppLayout({ children }: AppLayoutProps) {
                   <PhotoCameraIcon fontSize="small" />
                 </IconButton>
               </Tooltip>
+              <Tooltip title="Import containerlab JSON">
+                <IconButton size="small" onClick={handleImportClick} sx={{ color: 'white' }}>
+                  <UploadIcon fontSize="small" />
+                </IconButton>
+              </Tooltip>
+              <input id="topo-import-input" accept="application/json" style={{ display: 'none' }} type="file" onChange={handleFileChange} />
               <Tooltip title={darkMode ? 'Light mode' : 'Dark mode'}>
                 <IconButton size="small" onClick={() => setDarkMode(!darkMode)} sx={{ color: 'white' }}>
                   {darkMode ? <LightModeIcon fontSize="small" /> : <DarkModeIcon fontSize="small" />}
@@ -274,6 +333,23 @@ export default function AppLayout({ children }: AppLayoutProps) {
           </DialogContent>
           <DialogActions>
             <Button onClick={() => setAboutDialogOpen(false)}>Close</Button>
+          </DialogActions>
+        </Dialog>
+
+        <Dialog open={importDialogOpen} onClose={handleImportCancel} maxWidth="xs" fullWidth>
+          <DialogTitle>Import containerlab topology</DialogTitle>
+          <DialogContent>
+            <Container>
+              <FormControlLabel
+                control={<Checkbox checked={includeProductionAddr} onChange={(e) => setIncludeProductionAddr(e.target.checked)} />}
+                label="Include production addresses and node metadata"
+              />
+              <Typography variant="caption">If enabled, production IPv4 and basic node metadata (platform, version, template) will be imported when available.</Typography>
+            </Container>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleImportCancel}>Cancel</Button>
+            <Button onClick={handleImportConfirm} variant="contained">Import</Button>
           </DialogActions>
         </Dialog>
 

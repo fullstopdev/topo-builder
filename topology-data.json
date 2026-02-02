@@ -1,0 +1,1918 @@
+{
+  "name": "renater-dcf-paris1",
+  "type": "clab",
+  "clab": {
+    "config": {
+      "prefix": "",
+      "mgmt": {
+        "network": "br-paris1",
+        "bridge": "br-b7c173f8c36e",
+        "ipv4-subnet": "192.168.30.0/24",
+        "ipv4-gw": "192.168.30.1",
+        "ipv6-gw": "fe80::d8fc:9cff:feb8:485d",
+        "external-access": true
+      }
+    }
+  },
+  "ssh-pub-keys": ["ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINu5EFGiaAI4dVtUYnXVmgXUhiftw+AQVom46XP/c3+T","ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCRVz6g22uGFdoo9qV9fDnszNtBiXjYvscCGXCkX8Sd49AMVvhUpikoyO85Wbyc5RBjtk2dba+bLmbQTGQFE3uhrCXt+5AQg8QSUZ3rXI+kbXU7RvLYTP6qq2FFrwCVT2uxGqtf0MEKU6Lt1ZYxjfynJQzIpBKje/RezGaAGdMCL+tavg9KSmnSvZNkC55q6u0gAcBfGCtjwmq4PnOCR6Jy9awmnv3xu4DM4LgbkEnm8NNFuTvLlhytqrosrIvxtuzfZXMglFHPfmDpNBFDyITihvQmrMSWWJNG6PCJdukP7XknZEVQbPX34SL7FBQcgjuV2LpfpwqctQU2pltAXTFr","ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDk3UfeuRBfSbmn5ojaa0vgfKJ6iWgYsNGbQnQDAe3A5PoJc9BxnrC5iy8B/DjBj9ECy2wvKEO2FQ5dr/jDSs5UzsRGYLagbxX7c7bYx15znfJAVkiZb7cOGZCqkJLgB0J9yqFvmGLF9eXkuJKINGnSIXmjAz30/yo4ODTSOc01emYMEtTJekYm5odfRAWNr7Xk37zVzCMTuDM4K8SiSiTCJIVZwxb06MAfCAXquf0pLZL55lprrwgtjI3c8hZR1R8nRQDYgr02/Hw7qrzWXF2fD976SvRvbIO7aMzMMd3+RcF4cK4+KgQKl1OH5tvsPFJFuX4YFMgRUNmzfyT097RsSb5x5vLb2Myrbhl9Vh6cLhHo+9rdPsVyz/hxwK2WzhVUGTyDUP1pE72w4QzE72NjZ3GntVCY+tGPF+30ZQdH2Oeuqtk3KtP5m9OY+VDt/gwKtvnioJL8edimIt39fzIdgAsg5al8JYlvxUrt0f4k4nPA1DkmDEISW4XATAjIcp8=","ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDJO2JQwT/n5lNFtGnKgoF8Ea8SosZW8mJ7t3g6IN/vQkQ1zv3ICPApkytgCV6zrORkVNXxHZOrRwANtLzpEnw9ipRW7SZX27H1v3Y17La+VD24KaZsLk00DfiPEd8MoevrV50j/ZvZf3RlEM2Q66UEDlBZHVhC2P80TsSpyNXt94TxEJgs8z+cfJaUyumJ10O8AWLB40l7AyzaCwU5dNefNZa+G7v7b8ETABeHBhbkeZA+9c5VyOiJo/keDlkdCqST8IoFwIebJlce0F1RDL+OV9nKsHRBQOqjTtlI18ZhXgzGQEKS3izUFHPjZccDGaLRU3VxM5zucg3yGvN0jCx4iMGqs2hOw6ei8Bm0mG/MbARlDiWs9dbReY1WDSwXEZiDq0Gosf0g8QGuhQqRL2m/hyp8bRo+P8qc3F9K2gd486VMHEp81o+Jrk5b6agmvt+hkeRInDc78frgkLejO0Bg650KWl1FQangKML/72i2bZyG3dzfSZOksG5IU+pX870=","ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCGV4IF+5YWTCY1pQnCig+7a3j6ZgQnP+jj5EZg7Y9SWmsHTK4rNhEkCh6Hg3qecGLy7RtWcOnSnkJfkCnkAA12S0cjvQ1woVR1+jWRcvAdUVc0ikYhcQMTxNvoueqQ7Dd/5/SofRjZ67ZxOie+hAbUbg2twFy3kzzimeMgPAuR57aydy8qwzLiyLTdKt024/SHeNoMyQSSHlQmB7/9ZkfqGHOrsnim50ucz4GtDR+4lorPpEIrLzCE4zgHcxlqHbmvgDrxwzNM16iezSpdvg3hYwI8MgLSpfMZ0E20cN9NvlhEkAWURHVLWTbV6bMMDFNAloYwojZ/fZ82cjhOqO1L","ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCVD7ur/feH9HWIboctB7VDYA7xEuX/2xGgvnh4mZy/iTRG+RlGY6zHqo5d1sQWyBmqmoRUUBvDKXVB0ioosO1iRMxzpX58o/S/t3DXMsuFfNmwg0vfFSXzHyvw84/V3BbYib23ZSerfIHbyzIEbLCKnnj9KnvC6K25QL3U5ER8UiepWegpwRca94lZCRk5Vii+4rN8zctihHwpoQlmp84SJyCQSbD2f//WjDmh9UnV7bkEOil26ZQbKiKG1Tmy8seYE+EPssp1+IABxC2bPE84y9j/spzNAsxFDZ5xOvgBPu2AHXGFUPVrkxMcdsdtUOHvfDsbz6zcJXC6BkQG+qUV","ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAl4qwfdddBgekPiXOf5uEZuQNNp9uDwaKXIwspG1uOfq0y2tF7jU7CNg92Z356R5Q3dQXqD9Hn9F++ldJJQ2Hr4g5M8a5Xz5Cb/rwiTdqEunWd7aBfm5FBszNIbEjJz4PqLKooe8zu3pwQaNOMTp8IEOGvOliB7k3ILHCvT5kerl8A9ufEY6xutA9VewWDsAWYwFFSDYSdmbBuMtEYQ8iRWf6PdACgT2svj55f8bEUv9elHz51SkXHLPL5n/v/ubTgDcCov4hRKk6jB1FciZdGz8/3w2GQ1lNLrXE3c/OSgglFdrE/HhMGkhMikMT7hgD0OuT/2eTl/d+vaeX1U1ieQ==","ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJSuLMMEKEIhzeqxs6B8xjYHWKN1Rye9po2kEUQX6oZR","ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIKsLRN3x/eJ9N5zYEvUcAzRDVKYL9Gut4FyKAveFFCKt","ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAkjcbJNcwPAZ3fAQfufLmL1mMiOXsBb+GxFfTiUO0oEW2QAhrwwU0lfPRrp8TUNisg+BNMXYQO7PE3pTqCjelZbgvK7wG+OSGDkO4Y/rQa18TEHwSv83ems4k8X+MpTLYAE9pTYnwcfZxTjvjwA5Vb5fvMK2P9he+N79vCyvMLOthAhWDCut5O0Lvh/R5CQNsYpEXfeI7N3/xtL+E3JrI+5BKzmXHHjimpwkVZr5Odd0CApaeyNj+ko6qVRfr7I+MKXWtWZe3ZK2nJi4INwv+gS4IBo5wYShN31dopU5GrZXcfDNhJnluH106vKwjTDu9p233/EHqq06lrg2h3g6nnw==","ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQC6ImL0refgGs7gLRtsTqbX13irpj2lHPv2zS0F4YwUHZ9uJUwldVwfndzlXaGF2ugzQxUYPleKYGH00gm+AooQUh//4LKro2/QFHrZsYN5c0tic8CQEzA9e9NlRBthaE8MXsvFQD0mzci7TPYAhSrrcdnMj2FefCWon3MCWm8n3TPTelcoRKqZadtexiUvFJOiW3Q2MRs2uP3JGqkNdotYpUMERNbv9NN8JgwvPcbLNSgfe/ARwLgwzqR5xQC68BEiWgChNK7KAqxaaGUwGk1mQ8GzzeQnv+d9SH8tVIRSDEG26YXiXSxoIl69+wQMzs14cPfjMyYcClwTM8R+o1Db","ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCaFRoWs816y5u6DwPcgEejGni6cvEXVgg6zRo51m562HVp3hY8V53ZPS+cRi2UkJEVxe4ulnH3la+JQ8Y3zwWrcXp3Z84odCAMayM9KCEveLY5MLxSGRGRX2xPPz4sK68lWSl6hjhdicgB/vjrEvJS8iHaMAYi03EjbcEQyovooqWqsx6pTDd0VuxXll6oqiTSAE0HEBDao1XpzxNzqSwZRBYxCSk27v9O6z3n5FoYfKko62actvJ8zfjO+/X2rcAnMcLaTi20y8L5Kik+C18CwvpCUhNbsnWYortpg5TySD7gmLuOfRMh0jkZce61SCqsT1eaTR3ZlgEGoPs7BjNn","ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCBHlL9TVNIetwwGvmIbtvF9UDrCNhgMs09hDf/mVJMU5bX6tLEnZXX5uFoC+aH9udzguwCFtNx6vnkW6qCc5PhSxbHDi6ZpOle7R+9VZKv9vn1bgcrApl4HJ6ARHNpGar5itEz6YsGevo+ypOtKkMwbDkACwLXaMg/Vm9FM5C/nTmTuQJds0IRbxIQcVp1J2rH3sjHyHhBgxIEShOzBKukPfh/XkFhURIXouGC3fz9ziEPn01jb/QmZTmwl8p/PEkWQTDlxKqhmpa6oONfVrd0IayHk315e8K4BWIV5eGwiakFOs2y3rM++mc2ZYSBlHZupIWaSywOHsiw1WZc0V8gSOdONGZ3vmNAMS0gG03s9vVemC2qP18Xt78HQ824nJFIsCdqc7uyr4SnIv+vyfHG6Wz1Fo9AjJu/R5Cyxv4yH2p8H5xEGqE6qiAceG+Xj5uloiCqZRLV61YIXJgtPfOWWsCtMXTtc0RVND3WSSXknCeRG3hcgtnyiGiCUlZh87n6abm+KZytAwgxeMgd/mlBdQIkEYjRz2S+uTdrLPjTongzK6e/Tzi9vOwDyytSaw6AXgho51DyDJN/b2+6YkCSjUHuvSDKGFxmKWmQnqQpfE0yyblhDXqw05LVAlaTsRnIwuD65zgvrTK7tmAIEwCrlImsDQR9yQzPvKsN4FvHmw==","ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAmTgGvvfJhzuDaN+UrQkQWtxcLcsh84W69OtWHxM8XKBB4prDBFDGlY6v8l7vvov7ghmTI+wy+Ydm6+aNmMy8lWp298JNdofjynqpxr7G9or2GnVZSKB5qqPiaaVYexO6wlsAQuUNFi5TMPxYkrnl3o2aKlly8g0CouSrCkucH8ug9fqYbKKGZK6MAwbzrwq+rSEsg0Tkzld4Dwor1NZZJq1QRxj0UkPxU4pRafN2ECABDc0M6d7RFdJamPeeosTinR6CVPWxnM2KCRQ/19I4S2ucsfXle0d3LorfsjAdnwUnMKdsiTLx0y7CNSrUI75n19Wk0H0k+th6RAQgqp9gHw==","ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCl/VLKdhiS4QwzroLObqyo3QYjmKOTF709IM+uOhK0w8+iXzYI5QkSs3VvaJz+a/HEoaOJc863kEi09tXqkHRXJy/ZcH7W93Mdubv24yNp8Btr+OWBaC3nOV4l0gU7gziaiKuhRXBnNUt23NhxE6R3+X/bBsUH2OHZ9IvFdEQ8Jd53uQS0uRvDYFNXxR0qcpLP1Jl84McEaONzOnSCDYTIK4gCi1CQVg8SNc9ThDhOeyBO6mBUxjDrdYZ+L7wmoRD0bx75eAYzmqx5KVgHxLLWTgu80a+ZkBK/l/WrjBZ1jttRTZDHRO1jTnINk2g29GuUQ2g7Akv61SM5ADE/w6OV","ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAnXqfT+MeUMbkVVC0a1X7MSLig2aIFfatQ+qIN5u3LQpJQwlRoUwV72pJocTDz05kIvKK7eEsiVAwLGzi8iUlnvQ51kI7OzUvSqiLUzChYYNxuy9G24mFeCzfzl9F7OYAplZ7MgJ5xTU4+M2xGEB4uaAmM38kMQqHcxeCJLgE5DA0NyfOrjMEQ8OXY2/hMPsMPpCB40wD4iSEK0cGrWNViKbMxHjVO7lJ07Gz9AHXu50wcbFB5c7nRKRG/lCmsq7mm0jGgg0gH7O3NE3rov2LqEMBPc66sU3M36E3pBHdYHF4nZ5JJXLSfsVbXSIoFXzXSRgRq6Lth8RzisWN+SOPrQ=="],
+  "nodes": {
+    "gip-paris1-dcf-lf01-101": {
+      "index": "0",
+      "shortname": "gip-paris1-dcf-lf01-101",
+      "longname": "gip-paris1-dcf-lf01-101",
+      "fqdn": "gip-paris1-dcf-lf01-101.renater-dcf-paris1.io",
+      "group": "leaf",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf01-101",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.14",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:d2:00:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "leaf",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf01-101",
+        "clab-node-longname": "gip-paris1-dcf-lf01-101",
+        "clab-node-name": "gip-paris1-dcf-lf01-101",
+        "clab-node-type": "ixrd3l",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "router",
+        "graph-level": "1",
+        "role": "leaf"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-lf01-102": {
+      "index": "1",
+      "shortname": "gip-paris1-dcf-lf01-102",
+      "longname": "gip-paris1-dcf-lf01-102",
+      "fqdn": "gip-paris1-dcf-lf01-102.renater-dcf-paris1.io",
+      "group": "leaf",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf01-102",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.17",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:91:01:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "leaf",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf01-102",
+        "clab-node-longname": "gip-paris1-dcf-lf01-102",
+        "clab-node-name": "gip-paris1-dcf-lf01-102",
+        "clab-node-type": "ixrd3l",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "router",
+        "graph-level": "1",
+        "role": "leaf"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-lf01-105": {
+      "index": "2",
+      "shortname": "gip-paris1-dcf-lf01-105",
+      "longname": "gip-paris1-dcf-lf01-105",
+      "fqdn": "gip-paris1-dcf-lf01-105.renater-dcf-paris1.io",
+      "group": "leaf",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf01-105",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.22",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:5b:02:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "leaf",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf01-105",
+        "clab-node-longname": "gip-paris1-dcf-lf01-105",
+        "clab-node-name": "gip-paris1-dcf-lf01-105",
+        "clab-node-type": "ixrd3l",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "router",
+        "graph-level": "1",
+        "role": "leaf"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-lf01-111": {
+      "index": "3",
+      "shortname": "gip-paris1-dcf-lf01-111",
+      "longname": "gip-paris1-dcf-lf01-111",
+      "fqdn": "gip-paris1-dcf-lf01-111.renater-dcf-paris1.io",
+      "group": "borderleaf",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf01-111",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:25.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.11",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:e4:03:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "borderleaf",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf01-111",
+        "clab-node-longname": "gip-paris1-dcf-lf01-111",
+        "clab-node-name": "gip-paris1-dcf-lf01-111",
+        "clab-node-type": "ixr-d3l",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "router",
+        "graph-level": "3",
+        "role": "Borderleaf"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-lf01-112": {
+      "index": "4",
+      "shortname": "gip-paris1-dcf-lf01-112",
+      "longname": "gip-paris1-dcf-lf01-112",
+      "fqdn": "gip-paris1-dcf-lf01-112.renater-dcf-paris1.io",
+      "group": "leaf",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf01-112",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.25",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:86:04:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "leaf",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf01-112",
+        "clab-node-longname": "gip-paris1-dcf-lf01-112",
+        "clab-node-name": "gip-paris1-dcf-lf01-112",
+        "clab-node-type": "ixrd3l",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "router",
+        "graph-level": "1",
+        "role": "leaf"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-lf01-115": {
+      "index": "5",
+      "shortname": "gip-paris1-dcf-lf01-115",
+      "longname": "gip-paris1-dcf-lf01-115",
+      "fqdn": "gip-paris1-dcf-lf01-115.renater-dcf-paris1.io",
+      "group": "leaf",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf01-115",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.30",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:2c:05:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "leaf",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf01-115",
+        "clab-node-longname": "gip-paris1-dcf-lf01-115",
+        "clab-node-name": "gip-paris1-dcf-lf01-115",
+        "clab-node-type": "ixrd3l",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "router",
+        "graph-level": "1",
+        "role": "leaf"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-lf02-101": {
+      "index": "6",
+      "shortname": "gip-paris1-dcf-lf02-101",
+      "longname": "gip-paris1-dcf-lf02-101",
+      "fqdn": "gip-paris1-dcf-lf02-101.renater-dcf-paris1.io",
+      "group": "leaf",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf02-101",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.15",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:f2:06:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "leaf",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf02-101",
+        "clab-node-longname": "gip-paris1-dcf-lf02-101",
+        "clab-node-name": "gip-paris1-dcf-lf02-101",
+        "clab-node-type": "ixrd3l",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "router",
+        "graph-level": "1",
+        "role": "leaf"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-lf02-102": {
+      "index": "7",
+      "shortname": "gip-paris1-dcf-lf02-102",
+      "longname": "gip-paris1-dcf-lf02-102",
+      "fqdn": "gip-paris1-dcf-lf02-102.renater-dcf-paris1.io",
+      "group": "leaf",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf02-102",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.18",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:05:07:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "leaf",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf02-102",
+        "clab-node-longname": "gip-paris1-dcf-lf02-102",
+        "clab-node-name": "gip-paris1-dcf-lf02-102",
+        "clab-node-type": "ixrd3l",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "router",
+        "graph-level": "1",
+        "role": "leaf"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-lf02-105": {
+      "index": "8",
+      "shortname": "gip-paris1-dcf-lf02-105",
+      "longname": "gip-paris1-dcf-lf02-105",
+      "fqdn": "gip-paris1-dcf-lf02-105.renater-dcf-paris1.io",
+      "group": "leaf",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf02-105",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.23",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:cd:08:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "leaf",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf02-105",
+        "clab-node-longname": "gip-paris1-dcf-lf02-105",
+        "clab-node-name": "gip-paris1-dcf-lf02-105",
+        "clab-node-type": "ixrd3l",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "router",
+        "graph-level": "1",
+        "role": "leaf"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-lf02-111": {
+      "index": "9",
+      "shortname": "gip-paris1-dcf-lf02-111",
+      "longname": "gip-paris1-dcf-lf02-111",
+      "fqdn": "gip-paris1-dcf-lf02-111.renater-dcf-paris1.io",
+      "group": "borderLeaf",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf02-111",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:25.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.12",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:cf:09:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "borderLeaf",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf02-111",
+        "clab-node-longname": "gip-paris1-dcf-lf02-111",
+        "clab-node-name": "gip-paris1-dcf-lf02-111",
+        "clab-node-type": "ixrd3l",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "router",
+        "graph-level": "3",
+        "role": "borderleaf"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-lf02-115": {
+      "index": "10",
+      "shortname": "gip-paris1-dcf-lf02-115",
+      "longname": "gip-paris1-dcf-lf02-115",
+      "fqdn": "gip-paris1-dcf-lf02-115.renater-dcf-paris1.io",
+      "group": "leaf",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf02-115",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.31",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:e1:0a:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "leaf",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-lf02-115",
+        "clab-node-longname": "gip-paris1-dcf-lf02-115",
+        "clab-node-name": "gip-paris1-dcf-lf02-115",
+        "clab-node-type": "ixrd3l",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "router",
+        "graph-level": "1",
+        "role": "leaf"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-sp01-111": {
+      "index": "11",
+      "shortname": "gip-paris1-dcf-sp01-111",
+      "longname": "gip-paris1-dcf-sp01-111",
+      "fqdn": "gip-paris1-dcf-sp01-111.renater-dcf-paris1.io",
+      "group": "spine",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-sp01-111",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.34",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:85:0b:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "spine",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-sp01-111",
+        "clab-node-longname": "gip-paris1-dcf-sp01-111",
+        "clab-node-name": "gip-paris1-dcf-sp01-111",
+        "clab-node-type": "ixrd3l",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "router",
+        "graph-level": "2",
+        "role": "spine"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-sp02-111": {
+      "index": "12",
+      "shortname": "gip-paris1-dcf-sp02-111",
+      "longname": "gip-paris1-dcf-sp02-111",
+      "fqdn": "gip-paris1-dcf-sp02-111.renater-dcf-paris1.io",
+      "group": "spine",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-sp02-111",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.33",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:54:0c:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "spine",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-sp02-111",
+        "clab-node-longname": "gip-paris1-dcf-sp02-111",
+        "clab-node-name": "gip-paris1-dcf-sp02-111",
+        "clab-node-type": "ixrd3l",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "router",
+        "graph-level": "2",
+        "role": "spine"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-swi01-101": {
+      "index": "13",
+      "shortname": "gip-paris1-dcf-swi01-101",
+      "longname": "gip-paris1-dcf-swi01-101",
+      "fqdn": "gip-paris1-dcf-swi01-101.renater-dcf-paris1.io",
+      "group": "mgmt",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-101",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.16",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:83:0d:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "mgmt",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-101",
+        "clab-node-longname": "gip-paris1-dcf-swi01-101",
+        "clab-node-name": "gip-paris1-dcf-swi01-101",
+        "clab-node-type": "ixrd1",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "switch",
+        "graph-level": "1",
+        "role": "mgmt"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-swi01-102": {
+      "index": "14",
+      "shortname": "gip-paris1-dcf-swi01-102",
+      "longname": "gip-paris1-dcf-swi01-102",
+      "fqdn": "gip-paris1-dcf-swi01-102.renater-dcf-paris1.io",
+      "group": "mgmt",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-102",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.19",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:83:0e:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "mgmt",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-102",
+        "clab-node-longname": "gip-paris1-dcf-swi01-102",
+        "clab-node-name": "gip-paris1-dcf-swi01-102",
+        "clab-node-type": "ixrd1",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "switch",
+        "graph-level": "1",
+        "role": "mgmt"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-swi01-103": {
+      "index": "15",
+      "shortname": "gip-paris1-dcf-swi01-103",
+      "longname": "gip-paris1-dcf-swi01-103",
+      "fqdn": "gip-paris1-dcf-swi01-103.renater-dcf-paris1.io",
+      "group": "mgmt",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-103",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.20",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:46:0f:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "mgmt",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-103",
+        "clab-node-longname": "gip-paris1-dcf-swi01-103",
+        "clab-node-name": "gip-paris1-dcf-swi01-103",
+        "clab-node-type": "ixrd1",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "switch",
+        "graph-level": "1",
+        "role": "mgmt"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-swi01-104": {
+      "index": "16",
+      "shortname": "gip-paris1-dcf-swi01-104",
+      "longname": "gip-paris1-dcf-swi01-104",
+      "fqdn": "gip-paris1-dcf-swi01-104.renater-dcf-paris1.io",
+      "group": "mgmt",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-104",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.21",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:e7:10:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "mgmt",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-104",
+        "clab-node-longname": "gip-paris1-dcf-swi01-104",
+        "clab-node-name": "gip-paris1-dcf-swi01-104",
+        "clab-node-type": "ixrd1",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "switch",
+        "graph-level": "1",
+        "role": "mgmt"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-swi01-105": {
+      "index": "17",
+      "shortname": "gip-paris1-dcf-swi01-105",
+      "longname": "gip-paris1-dcf-swi01-105",
+      "fqdn": "gip-paris1-dcf-swi01-105.renater-dcf-paris1.io",
+      "group": "mgmt",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-105",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.24",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:87:11:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "mgmt",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-105",
+        "clab-node-longname": "gip-paris1-dcf-swi01-105",
+        "clab-node-name": "gip-paris1-dcf-swi01-105",
+        "clab-node-type": "ixrd1",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "switch",
+        "graph-level": "1",
+        "role": "mgmt"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-swi01-111": {
+      "index": "18",
+      "shortname": "gip-paris1-dcf-swi01-111",
+      "longname": "gip-paris1-dcf-swi01-111",
+      "fqdn": "gip-paris1-dcf-swi01-111.renater-dcf-paris1.io",
+      "group": "mgmt",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-111",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.13",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:22:12:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "mgmt",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-111",
+        "clab-node-longname": "gip-paris1-dcf-swi01-111",
+        "clab-node-name": "gip-paris1-dcf-swi01-111",
+        "clab-node-type": "ixrd1",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "switch",
+        "graph-level": "1",
+        "role": "mgmt"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-swi01-112": {
+      "index": "19",
+      "shortname": "gip-paris1-dcf-swi01-112",
+      "longname": "gip-paris1-dcf-swi01-112",
+      "fqdn": "gip-paris1-dcf-swi01-112.renater-dcf-paris1.io",
+      "group": "mgmt",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-112",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.26",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:3c:13:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "mgmt",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-112",
+        "clab-node-longname": "gip-paris1-dcf-swi01-112",
+        "clab-node-name": "gip-paris1-dcf-swi01-112",
+        "clab-node-type": "ixrd1",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "switch",
+        "graph-level": "1",
+        "role": "mgmt"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-swi01-113": {
+      "index": "20",
+      "shortname": "gip-paris1-dcf-swi01-113",
+      "longname": "gip-paris1-dcf-swi01-113",
+      "fqdn": "gip-paris1-dcf-swi01-113.renater-dcf-paris1.io",
+      "group": "mgmt",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-113",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.28",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:79:14:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "mgmt",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-113",
+        "clab-node-longname": "gip-paris1-dcf-swi01-113",
+        "clab-node-name": "gip-paris1-dcf-swi01-113",
+        "clab-node-type": "ixrd1",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "switch",
+        "graph-level": "1",
+        "role": "mgmt"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-swi01-114": {
+      "index": "21",
+      "shortname": "gip-paris1-dcf-swi01-114",
+      "longname": "gip-paris1-dcf-swi01-114",
+      "fqdn": "gip-paris1-dcf-swi01-114.renater-dcf-paris1.io",
+      "group": "mgmt",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-114",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.29",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:f5:15:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "mgmt",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-114",
+        "clab-node-longname": "gip-paris1-dcf-swi01-114",
+        "clab-node-name": "gip-paris1-dcf-swi01-114",
+        "clab-node-type": "ixrd1",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "switch",
+        "graph-level": "1",
+        "role": "mgmt"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-swi01-115": {
+      "index": "22",
+      "shortname": "gip-paris1-dcf-swi01-115",
+      "longname": "gip-paris1-dcf-swi01-115",
+      "fqdn": "gip-paris1-dcf-swi01-115.renater-dcf-paris1.io",
+      "group": "mgmt",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-115",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.32",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:ec:16:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "mgmt",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi01-115",
+        "clab-node-longname": "gip-paris1-dcf-swi01-115",
+        "clab-node-name": "gip-paris1-dcf-swi01-115",
+        "clab-node-type": "ixrd1",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "switch",
+        "graph-level": "1",
+        "role": "mgmt"
+      },
+      "port-bindings": [
+      ]
+    },
+    "gip-paris1-dcf-swi02-112": {
+      "index": "23",
+      "shortname": "gip-paris1-dcf-swi02-112",
+      "longname": "gip-paris1-dcf-swi02-112",
+      "fqdn": "gip-paris1-dcf-swi02-112.renater-dcf-paris1.io",
+      "group": "mgmt",
+      "labdir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi02-112",
+      "kind": "nokia_srlinux",
+      "image": "ghcr.io/nokia/srlinux:24.10.1",
+      "mgmt-net": "",
+      "mgmt-intf": "",
+      "mgmt-ipv4-address": "192.168.30.27",
+      "mgmt-ipv4-prefix-length": 24,
+      "mgmt-ipv6-address": "",
+      "mgmt-ipv6-prefix-length": 0,
+      "mac-address": "1a:ba:17:00:00:00",
+      "labels": {
+        "clab-mgmt-net-bridge": "br-b7c173f8c36e",
+        "clab-node-group": "mgmt",
+        "clab-node-kind": "nokia_srlinux",
+        "clab-node-lab-dir": "/home/noksysadm/LAB/containerlab/Renater/clab-renater-dcf-paris1/gip-paris1-dcf-swi02-112",
+        "clab-node-longname": "gip-paris1-dcf-swi02-112",
+        "clab-node-name": "gip-paris1-dcf-swi02-112",
+        "clab-node-type": "ixrd1",
+        "clab-owner": "noksysadm",
+        "clab-topo-file": "/home/noksysadm/LAB/containerlab/Renater/paris1.clab.yml",
+        "containerlab": "renater-dcf-paris1",
+        "dc": "1",
+        "graph-icon": "switch",
+        "graph-level": "1",
+        "role": "mgmt"
+      },
+      "port-bindings": [
+      ]
+    }
+  },
+  "links": [
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-111",
+          "interface": "e1-29",
+          "mac": "aa:c1:ab:ca:ec:76",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-1",
+          "mac": "aa:c1:ab:3a:c1:a8",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-111",
+          "interface": "e1-30",
+          "mac": "aa:c1:ab:0c:66:f9",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-2",
+          "mac": "aa:c1:ab:4f:de:6a",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-111",
+          "interface": "e1-31",
+          "mac": "aa:c1:ab:ef:85:48",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-1",
+          "mac": "aa:c1:ab:15:1a:13",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-111",
+          "interface": "e1-32",
+          "mac": "aa:c1:ab:04:39:7f",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-2",
+          "mac": "aa:c1:ab:9a:5f:f0",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-111",
+          "interface": "e1-29",
+          "mac": "aa:c1:ab:1a:b7:13",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-3",
+          "mac": "aa:c1:ab:c2:26:16",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-111",
+          "interface": "e1-30",
+          "mac": "aa:c1:ab:3b:c7:6a",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-4",
+          "mac": "aa:c1:ab:d8:6e:15",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-111",
+          "interface": "e1-31",
+          "mac": "aa:c1:ab:59:4c:03",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-3",
+          "mac": "aa:c1:ab:fe:99:4a",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-111",
+          "interface": "e1-32",
+          "mac": "aa:c1:ab:3f:7c:e4",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-4",
+          "mac": "aa:c1:ab:87:f1:0f",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-101",
+          "interface": "e1-29",
+          "mac": "aa:c1:ab:34:50:15",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-5",
+          "mac": "aa:c1:ab:3a:9b:5d",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-101",
+          "interface": "e1-30",
+          "mac": "aa:c1:ab:ee:6d:0b",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-6",
+          "mac": "aa:c1:ab:62:8a:e1",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-101",
+          "interface": "e1-31",
+          "mac": "aa:c1:ab:df:25:30",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-5",
+          "mac": "aa:c1:ab:90:a8:cc",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-101",
+          "interface": "e1-32",
+          "mac": "aa:c1:ab:9f:95:ed",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-6",
+          "mac": "aa:c1:ab:e8:49:16",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-101",
+          "interface": "e1-29",
+          "mac": "aa:c1:ab:0c:67:78",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-7",
+          "mac": "aa:c1:ab:1f:22:a6",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-101",
+          "interface": "e1-30",
+          "mac": "aa:c1:ab:e4:21:7a",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-8",
+          "mac": "aa:c1:ab:89:33:d6",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-101",
+          "interface": "e1-31",
+          "mac": "aa:c1:ab:45:cf:18",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-7",
+          "mac": "aa:c1:ab:42:6b:43",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-101",
+          "interface": "e1-32",
+          "mac": "aa:c1:ab:89:5b:08",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-8",
+          "mac": "aa:c1:ab:d0:d2:76",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-102",
+          "interface": "e1-29",
+          "mac": "aa:c1:ab:68:10:7a",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-9",
+          "mac": "aa:c1:ab:76:71:fd",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-102",
+          "interface": "e1-30",
+          "mac": "aa:c1:ab:cc:89:fa",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-10",
+          "mac": "aa:c1:ab:47:45:16",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-102",
+          "interface": "e1-31",
+          "mac": "aa:c1:ab:af:99:11",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-9",
+          "mac": "aa:c1:ab:45:40:cf",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-102",
+          "interface": "e1-32",
+          "mac": "aa:c1:ab:c3:40:95",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-10",
+          "mac": "aa:c1:ab:8e:16:4e",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-102",
+          "interface": "e1-29",
+          "mac": "aa:c1:ab:71:4a:b0",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-11",
+          "mac": "aa:c1:ab:52:c1:41",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-102",
+          "interface": "e1-30",
+          "mac": "aa:c1:ab:1b:a1:ae",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-12",
+          "mac": "aa:c1:ab:bf:9d:6c",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-102",
+          "interface": "e1-31",
+          "mac": "aa:c1:ab:0e:69:af",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-11",
+          "mac": "aa:c1:ab:fd:49:aa",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-102",
+          "interface": "e1-32",
+          "mac": "aa:c1:ab:01:cc:4d",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-12",
+          "mac": "aa:c1:ab:4f:aa:1b",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-105",
+          "interface": "e1-29",
+          "mac": "aa:c1:ab:c8:f3:97",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-13",
+          "mac": "aa:c1:ab:c2:2f:f7",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-105",
+          "interface": "e1-30",
+          "mac": "aa:c1:ab:28:f2:cd",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-14",
+          "mac": "aa:c1:ab:f3:c3:d1",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-105",
+          "interface": "e1-31",
+          "mac": "aa:c1:ab:24:71:89",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-13",
+          "mac": "aa:c1:ab:ec:f9:cf",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-105",
+          "interface": "e1-32",
+          "mac": "aa:c1:ab:32:c2:67",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-14",
+          "mac": "aa:c1:ab:d3:a5:4f",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-105",
+          "interface": "e1-29",
+          "mac": "aa:c1:ab:48:51:dc",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-15",
+          "mac": "aa:c1:ab:5d:e4:86",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-105",
+          "interface": "e1-30",
+          "mac": "aa:c1:ab:54:4a:a2",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-16",
+          "mac": "aa:c1:ab:c2:b1:58",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-105",
+          "interface": "e1-31",
+          "mac": "aa:c1:ab:40:1b:9b",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-15",
+          "mac": "aa:c1:ab:c6:ab:f5",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-105",
+          "interface": "e1-32",
+          "mac": "aa:c1:ab:ce:6f:a7",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-16",
+          "mac": "aa:c1:ab:20:e9:38",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-112",
+          "interface": "e1-29",
+          "mac": "aa:c1:ab:44:aa:e7",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-17",
+          "mac": "aa:c1:ab:66:a8:5f",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-112",
+          "interface": "e1-30",
+          "mac": "aa:c1:ab:67:dc:42",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-18",
+          "mac": "aa:c1:ab:08:af:ea",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-112",
+          "interface": "e1-31",
+          "mac": "aa:c1:ab:f3:65:07",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-17",
+          "mac": "aa:c1:ab:5e:12:ac",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-112",
+          "interface": "e1-32",
+          "mac": "aa:c1:ab:53:4e:cf",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-18",
+          "mac": "aa:c1:ab:3d:2e:08",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-115",
+          "interface": "e1-29",
+          "mac": "aa:c1:ab:0a:8c:db",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-19",
+          "mac": "aa:c1:ab:46:d6:0d",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-115",
+          "interface": "e1-30",
+          "mac": "aa:c1:ab:70:4c:9b",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-20",
+          "mac": "aa:c1:ab:02:b7:6f",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-115",
+          "interface": "e1-31",
+          "mac": "aa:c1:ab:c7:46:e2",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-19",
+          "mac": "aa:c1:ab:99:e7:30",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf01-115",
+          "interface": "e1-32",
+          "mac": "aa:c1:ab:6d:f5:ea",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-20",
+          "mac": "aa:c1:ab:fc:40:40",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-115",
+          "interface": "e1-29",
+          "mac": "aa:c1:ab:17:d6:9a",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-21",
+          "mac": "aa:c1:ab:ad:82:72",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-115",
+          "interface": "e1-30",
+          "mac": "aa:c1:ab:d3:2d:ee",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp01-111",
+          "interface": "e1-22",
+          "mac": "aa:c1:ab:af:b2:13",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-115",
+          "interface": "e1-31",
+          "mac": "aa:c1:ab:2b:85:e7",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-21",
+          "mac": "aa:c1:ab:c8:15:7e",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-lf02-115",
+          "interface": "e1-32",
+          "mac": "aa:c1:ab:2f:30:75",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-sp02-111",
+          "interface": "e1-22",
+          "mac": "aa:c1:ab:5a:dd:de",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-111",
+          "interface": "e1-51",
+          "mac": "aa:c1:ab:0a:09:37",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf01-111",
+          "interface": "e1-33",
+          "mac": "aa:c1:ab:fd:03:ff",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-111",
+          "interface": "e1-52",
+          "mac": "aa:c1:ab:82:30:ea",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf02-111",
+          "interface": "e1-33",
+          "mac": "aa:c1:ab:be:3a:e3",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-101",
+          "interface": "e1-51",
+          "mac": "aa:c1:ab:46:f0:9d",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf01-101",
+          "interface": "e1-33",
+          "mac": "aa:c1:ab:69:5e:bd",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-101",
+          "interface": "e1-52",
+          "mac": "aa:c1:ab:00:93:7f",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf02-101",
+          "interface": "e1-33",
+          "mac": "aa:c1:ab:3e:01:93",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-102",
+          "interface": "e1-51",
+          "mac": "aa:c1:ab:03:d5:80",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf01-102",
+          "interface": "e1-33",
+          "mac": "aa:c1:ab:1d:7b:bc",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-102",
+          "interface": "e1-52",
+          "mac": "aa:c1:ab:6c:6c:20",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf02-102",
+          "interface": "e1-33",
+          "mac": "aa:c1:ab:36:c3:f3",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-103",
+          "interface": "e1-51",
+          "mac": "aa:c1:ab:37:65:f0",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf01-102",
+          "interface": "e1-34",
+          "mac": "aa:c1:ab:97:0f:07",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-103",
+          "interface": "e1-52",
+          "mac": "aa:c1:ab:69:58:a3",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf02-102",
+          "interface": "e1-34",
+          "mac": "aa:c1:ab:fd:f3:16",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-104",
+          "interface": "e1-51",
+          "mac": "aa:c1:ab:6d:fe:a6",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf01-105",
+          "interface": "e1-34",
+          "mac": "aa:c1:ab:52:da:cb",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-104",
+          "interface": "e1-52",
+          "mac": "aa:c1:ab:85:5c:67",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf02-105",
+          "interface": "e1-34",
+          "mac": "aa:c1:ab:72:f2:bd",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-105",
+          "interface": "e1-51",
+          "mac": "aa:c1:ab:b4:f2:ba",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf01-105",
+          "interface": "e1-33",
+          "mac": "aa:c1:ab:82:9c:b5",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-105",
+          "interface": "e1-52",
+          "mac": "aa:c1:ab:2b:2e:2d",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf02-105",
+          "interface": "e1-33",
+          "mac": "aa:c1:ab:0a:35:b2",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-112",
+          "interface": "e1-51",
+          "mac": "aa:c1:ab:35:d4:1b",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf01-112",
+          "interface": "e1-27",
+          "mac": "aa:c1:ab:cb:a9:b1",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-112",
+          "interface": "e1-52",
+          "mac": "aa:c1:ab:e7:56:95",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf01-112",
+          "interface": "e1-28",
+          "mac": "aa:c1:ab:26:97:59",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi02-112",
+          "interface": "e1-51",
+          "mac": "aa:c1:ab:fb:22:a1",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf01-112",
+          "interface": "e1-33",
+          "mac": "aa:c1:ab:a9:26:3a",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi02-112",
+          "interface": "e1-52",
+          "mac": "aa:c1:ab:bc:66:74",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf01-112",
+          "interface": "e1-34",
+          "mac": "aa:c1:ab:ff:da:d2",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-113",
+          "interface": "e1-51",
+          "mac": "aa:c1:ab:99:14:f3",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf01-115",
+          "interface": "e1-28",
+          "mac": "aa:c1:ab:96:e5:9f",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-113",
+          "interface": "e1-52",
+          "mac": "aa:c1:ab:35:dd:ee",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf02-115",
+          "interface": "e1-28",
+          "mac": "aa:c1:ab:72:1e:1b",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-114",
+          "interface": "e1-51",
+          "mac": "aa:c1:ab:84:56:2a",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf01-115",
+          "interface": "e1-34",
+          "mac": "aa:c1:ab:96:52:94",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-114",
+          "interface": "e1-52",
+          "mac": "aa:c1:ab:94:3d:ef",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf02-115",
+          "interface": "e1-34",
+          "mac": "aa:c1:ab:0a:3f:2a",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-115",
+          "interface": "e1-51",
+          "mac": "aa:c1:ab:8b:4d:3e",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf01-115",
+          "interface": "e1-33",
+          "mac": "aa:c1:ab:a4:53:ae",
+          "peer": "a"
+        }
+      }
+    },
+    {
+      "endpoints": {
+        "a": {
+          "node": "gip-paris1-dcf-swi01-115",
+          "interface": "e1-52",
+          "mac": "aa:c1:ab:e7:9f:15",
+          "peer": "z"
+        },
+        "z": {
+          "node": "gip-paris1-dcf-lf02-115",
+          "interface": "e1-33",
+          "mac": "aa:c1:ab:08:47:18",
+          "peer": "a"
+        }
+      }
+    }
+  ]
+}

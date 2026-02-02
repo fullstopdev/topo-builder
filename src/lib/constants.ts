@@ -12,7 +12,7 @@ export const LABEL_EDGE_ID = 'topobuilder.eda.labs/edgeId';
 export const LABEL_MEMBER_INDEX = 'topobuilder.eda.labs/memberIndex';
 export const LABEL_NAME_PREFIX = 'topobuilder.eda.labs/name-prefix';
 
-export const DEFAULT_INTERFACE = 'ethernet-1-1';
+export const DEFAULT_INTERFACE = 'e-1-1';
 export const DEFAULT_SIM_INTERFACE = 'eth1';
 
 export const PLATFORM_SUGGESTIONS = [

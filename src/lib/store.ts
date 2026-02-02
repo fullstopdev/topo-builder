@@ -1859,7 +1859,7 @@ export const useTopologyStore = create<TopologyStore>()(
         set({ clipboard });
       },
 
-      importFromYaml: (yamlString: string): boolean => {
+      importFromYaml: (yamlString: string, options?: { forceCreate?: boolean }): boolean => {
         try {
           // Handle empty YAML - reset to defaults
           const trimmed = yamlString.trim();
@@ -1903,9 +1903,8 @@ export const useTopologyStore = create<TopologyStore>()(
           if (parsed.metadata?.namespace) {
             updates.namespace = parsed.metadata.namespace;
           }
-          if (parsed.spec?.operation) {
-            updates.operation = parsed.spec.operation;
-          }
+          // Default imported operation to 'create' unless explicitly provided
+          updates.operation = options?.forceCreate ? 'create' : ((parsed.spec?.operation as Operation) || 'create');
 
           // Update templates
           const nodeTemplates: NodeTemplate[] = parsed.spec?.nodeTemplates || [];
@@ -1965,6 +1964,12 @@ export const useTopologyStore = create<TopologyStore>()(
                   template: node.template,
                   nodeProfile,
                   labels: hasUserLabels ? userLabels : undefined,
+                  // preserve optional metadata if present in YAML
+                  productionAddress: (node as any).productionAddress,
+                  npp: (node as any).npp,
+                  onBoarded: (node as any).onBoarded,
+                  operatingSystem: (node as any).operatingSystem,
+                  version: (node as any).version,
                 },
               };
             });

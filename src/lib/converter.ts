@@ -99,6 +99,29 @@ export function buildCrd(options: ExportOptions): NetworkTopologyCrd {
       Object.assign(labels, node.data.labels);
     }
 
+    // Preserve production and metadata fields when present in node data
+    const anyData = node.data as any;
+    if (anyData.productionAddress) {
+      networkNode.productionAddress = anyData.productionAddress;
+    }
+    if (anyData.npp) {
+      networkNode.npp = anyData.npp;
+    }
+    if (anyData.onBoarded !== undefined) {
+      networkNode.onBoarded = anyData.onBoarded;
+    }
+    if (anyData.operatingSystem) {
+      networkNode.operatingSystem = anyData.operatingSystem;
+    }
+    if (anyData.version) {
+      networkNode.version = anyData.version;
+    }
+
+    // If version is present but no explicit nodeProfile, set nodeProfile to match the version
+    if (!networkNode.nodeProfile && anyData.version) {
+      networkNode.nodeProfile = `srlinux-ghcr-${anyData.version}`;
+    }
+
     networkNode.labels = labels;
     return networkNode;
   });
@@ -348,6 +371,11 @@ export function buildCrd(options: ExportOptions): NetworkTopologyCrd {
   const allLinks = [...islLinks, ...simLinks, ...esiLagLinks];
 
   // Build the full CRD object
+  // If all nodes share a single version, update provided nodeTemplates to use that nodeProfile
+  const detectedVersions = new Set(networkNodes.map(n => (n as any).version).filter(Boolean));
+  const commonVersion = detectedVersions.size === 1 ? Array.from(detectedVersions)[0] : undefined;
+  const adjustedNodeTemplates = commonVersion ? nodeTemplates.map(t => ({ ...t, nodeProfile: `srlinux-ghcr-${commonVersion}` })) : nodeTemplates;
+
   const crd: NetworkTopologyCrd = {
     apiVersion: 'topologies.eda.nokia.com/v1alpha1',
     kind: 'NetworkTopology',
@@ -357,15 +385,16 @@ export function buildCrd(options: ExportOptions): NetworkTopologyCrd {
     },
     spec: {
       operation: operation,
-      nodeTemplates: nodeTemplates,
+      nodeTemplates: adjustedNodeTemplates,
       nodes: networkNodes,
       linkTemplates: linkTemplates,
       links: allLinks,
     },
   };
 
-  // Only include simulation if it has data
-  if (simulation && (
+  // Only include simulation if it has data and no production addresses are present
+  const hasProductionAddress = networkNodes.some(n => (n as any).productionAddress !== undefined);
+  if (!hasProductionAddress && simulation && (
     (simulation.simNodeTemplates && simulation.simNodeTemplates.length > 0) ||
     (simulation.simNodes && simulation.simNodes.length > 0) ||
     (simulation.topology && Array.isArray(simulation.topology) && simulation.topology.length > 0)
