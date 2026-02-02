@@ -7,6 +7,71 @@ import { exportToYaml } from '../lib/converter';
 
 let editorInstance: editor.IStandaloneCodeEditor | null = null;
 
+export default function YamlEditor() {
+  const {
+    topologyName, namespace, operation, nodes, edges,
+    nodeTemplates, linkTemplates, simulation,
+    importFromYaml, yamlRefreshCounter, darkMode,
+  } = useTopologyStore();
+
+  const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isRefreshingRef = useRef(false);
+
+  const getYamlFromState = () => exportToYaml({
+    topologyName, namespace, operation, nodes, edges, nodeTemplates, linkTemplates, simulation,
+  });
+
+  useEffect(() => {
+    if (yamlRefreshCounter > 0 && editorRef.current) {
+      isRefreshingRef.current = true;
+      editorRef.current.setValue(getYamlFromState());
+      setTimeout(() => { isRefreshingRef.current = false; }, 0);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [yamlRefreshCounter]);
+
+  const handleEditorMount: OnMount = (editor) => {
+    editorRef.current = editor;
+    editorInstance = editor;
+  };
+
+  const handleEditorChange = useCallback((value: string | undefined) => {
+    if (value === undefined || isRefreshingRef.current) return;
+
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => importFromYaml(value), 500);
+  }, [importFromYaml]);
+
+  return (
+    <Box data-testid="yaml-editor" sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
+      <Box sx={{ flex: 1 }}>
+        <Editor
+          height="100%"
+          language="yaml"
+          theme={darkMode ? 'vs-dark' : 'light'}
+          defaultValue={getYamlFromState()}
+          onMount={handleEditorMount}
+          onChange={handleEditorChange}
+          options={{
+            minimap: { enabled: false },
+            fontSize: 13,
+            lineNumbers: 'on',
+            scrollBeyondLastLine: false,
+            wordWrap: 'on',
+            automaticLayout: true,
+            folding: true,
+            renderLineHighlight: 'all',
+            tabSize: 2,
+            scrollbar: { verticalScrollbarSize: 10, horizontalScrollbarSize: 10 },
+          }}
+        />
+      </Box>
+    </Box>
+  );
+}
+
+// Export utility functions after component to maintain Fast Refresh compatibility
 export function getEditorContent(): string {
   return editorInstance?.getValue() || '';
 }
@@ -59,6 +124,7 @@ export function jumpToSimNodeInEditor(simNodeName: string): void {
   }
 }
 
+// Utility functions exported after component for Fast Refresh compatibility
 export function jumpToLinkInEditor(sourceNode: string, targetNode: string): void {
   if (!editorInstance) return;
 
@@ -194,68 +260,4 @@ export function jumpToMemberLinkInEditor(edgeId: string, memberIndex: number): v
       endColumn: lines[endLine].length + 1,
     });
   }
-}
-
-export default function YamlEditor() {
-  const {
-    topologyName, namespace, operation, nodes, edges,
-    nodeTemplates, linkTemplates, simulation,
-    importFromYaml, yamlRefreshCounter, darkMode,
-  } = useTopologyStore();
-
-  const editorRef = useRef<editor.IStandaloneCodeEditor | null>(null);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const isRefreshingRef = useRef(false);
-
-  const getYamlFromState = () => exportToYaml({
-    topologyName, namespace, operation, nodes, edges, nodeTemplates, linkTemplates, simulation,
-  });
-
-  useEffect(() => {
-    if (yamlRefreshCounter > 0 && editorRef.current) {
-      isRefreshingRef.current = true;
-      editorRef.current.setValue(getYamlFromState());
-      setTimeout(() => { isRefreshingRef.current = false; }, 0);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [yamlRefreshCounter]);
-
-  const handleEditorMount: OnMount = (editor) => {
-    editorRef.current = editor;
-    editorInstance = editor;
-  };
-
-  const handleEditorChange = useCallback((value: string | undefined) => {
-    if (value === undefined || isRefreshingRef.current) return;
-
-    if (timeoutRef.current) clearTimeout(timeoutRef.current);
-    timeoutRef.current = setTimeout(() => importFromYaml(value), 500);
-  }, [importFromYaml]);
-
-  return (
-    <Box data-testid="yaml-editor" sx={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
-      <Box sx={{ flex: 1 }}>
-        <Editor
-          height="100%"
-          language="yaml"
-          theme={darkMode ? 'vs-dark' : 'light'}
-          defaultValue={getYamlFromState()}
-          onMount={handleEditorMount}
-          onChange={handleEditorChange}
-          options={{
-            minimap: { enabled: false },
-            fontSize: 13,
-            lineNumbers: 'on',
-            scrollBeyondLastLine: false,
-            wordWrap: 'on',
-            automaticLayout: true,
-            folding: true,
-            renderLineHighlight: 'all',
-            tabSize: 2,
-            scrollbar: { verticalScrollbarSize: 10, horizontalScrollbarSize: 10 },
-          }}
-        />
-      </Box>
-    </Box>
-  );
 }

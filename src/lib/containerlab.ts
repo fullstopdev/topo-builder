@@ -1,6 +1,37 @@
 import yaml from 'js-yaml';
 import { LABEL_POS_X, LABEL_POS_Y } from './constants';
 
+// Normalize name to Kubernetes-compliant format
+// Rules: lowercase alphanumeric and hyphens only, must start/end with alphanumeric
+function normalizeKubernetesName(name: string): string {
+  if (!name) return 'unnamed';
+  
+  // Convert to lowercase
+  let normalized = name.toLowerCase();
+  
+  // Replace underscores and other invalid characters with hyphens
+  normalized = normalized.replace(/[^a-z0-9-]/g, '-');
+  
+  // Remove leading/trailing hyphens
+  normalized = normalized.replace(/^-+|-+$/g, '');
+  
+  // Replace multiple consecutive hyphens with single hyphen
+  normalized = normalized.replace(/-+/g, '-');
+  
+  // Ensure it starts with alphanumeric
+  if (normalized && !/^[a-z0-9]/.test(normalized)) {
+    normalized = 'n-' + normalized;
+  }
+  
+  // Ensure it ends with alphanumeric
+  if (normalized && !/[a-z0-9]$/.test(normalized)) {
+    normalized = normalized.replace(/-+$/, '');
+  }
+  
+  // If empty after normalization, use default
+  return normalized || 'unnamed';
+}
+
 function normalizeInterface(iface: string | undefined): string | undefined {
   if (!iface) return undefined;
   const m = iface.match(/^e1-(\d+)$/i);
@@ -20,28 +51,47 @@ function makeLinkName(localNode: string | undefined, remoteNode: string | undefi
   return `link-${index}`;
 }
 
-export function containerlabToNetworkTopologyCrd(containerlabData: any, includeProduction = false): string {
-  const metadataName = containerlabData.name || 'containerlab-topology';
+export function containerlabToNetworkTopologyCrd(containerlabData: any, mode: 'clab' | 'cx' = 'clab'): string {
+  const metadataName = normalizeKubernetesName(containerlabData.name || 'containerlab-topology');
 
   // Support both direct format (nodes/links at root) and wrapped format (topology.nodes/topology.links)
   const topology = containerlabData.topology || containerlabData;
   const nodesObj = topology.nodes || {};
-  const linksArr = topology.links || [];
+  const linksArr = topology.links || {};
 
-  const networkNodes = Object.keys(nodesObj).map((nodeName) => {
+  // Determine which nodes are linux nodes for CX mode
+  const linuxNodes = new Set<string>();
+  Object.keys(nodesObj).forEach((nodeName) => {
+    const node = nodesObj[nodeName] || {};
+    const kind = (node.kind || '').toString().toLowerCase();
+    if (kind === 'linux') {
+      linuxNodes.add(nodeName);
+    }
+  });
+
+  const networkNodes = Object.keys(nodesObj)
+    .filter((nodeName) => {
+      // Filter out linux nodes in both modes
+      if (linuxNodes.has(nodeName)) {
+        return false;
+      }
+      return true;
+    })
+    .map((nodeName) => {
     const node = nodesObj[nodeName] || {};
     const labels = node.labels || {};
-    const networkNode: any = { name: nodeName };
+    const networkNode: any = { name: normalizeKubernetesName(nodeName) };
     if (node.kind) networkNode.platform = node.kind;
     // Don't set nodeProfile from node.type - it's only for platform detection
     if (Object.keys(labels).length) {
       // Filter out labels whose values look like file paths (contain '/')
+      // Convert all values to strings as Kubernetes labels must be strings
       const filtered: Record<string, any> = {};
       Object.keys(labels).forEach((k) => {
         try {
           const v = labels[k];
           const sv = v === undefined || v === null ? '' : String(v);
-          if (!sv.includes('/')) filtered[k] = v;
+          if (!sv.includes('/')) filtered[k] = sv;
         } catch (e) {
           // if any error, skip this label
         }
@@ -89,7 +139,12 @@ export function containerlabToNetworkTopologyCrd(containerlabData: any, includeP
     // Store version temporarily - we'll decide later if nodeProfile needs to be set
     // based on whether it differs from the template version
 
-    if (includeProduction) {
+    // Set template based on role, default to 'leaf'
+    const role = (labels.role || labels.Role || '').toString().toLowerCase() || 'leaf';
+    networkNode.template = role.includes('leaf') ? 'leaf' : role;
+
+    // In clab mode, include production metadata
+    if (mode === 'clab') {
       // production address
       // productionAddress should come from the node's management IPv4 address
       const ipv4 = node['mgmt-ipv4-address'] || node['mgmt-ipv4'] || labels['mgmt-ipv4-address'] || labels['clab-mgmt-net-bridge'] || undefined;
@@ -101,13 +156,18 @@ export function containerlabToNetworkTopologyCrd(containerlabData: any, includeP
       networkNode.npp = { mode: 'normal' };
       networkNode.onBoarded = false;
       networkNode.operatingSystem = 'srl';
-      // template: use role or labels to infer
-      const role = (labels.role || labels.Role || '').toString().toLowerCase();
-      networkNode.template = role.includes('leaf') ? 'leaf' : (role || undefined);
     }
     // Don't set nodeProfile here - we'll set it later only if the node's version
     // differs from its template's version
     return networkNode;
+  });
+
+  // Create mapping from original node names to normalized names
+  const nodeNameMapping = new Map<string, string>();
+  Object.keys(nodesObj).forEach((originalName) => {
+    if (!linuxNodes.has(originalName)) {
+      nodeNameMapping.set(originalName, normalizeKubernetesName(originalName));
+    }
   });
 
   // detect a common version across nodes to use in nodeTemplates if present
@@ -130,7 +190,7 @@ export function containerlabToNetworkTopologyCrd(containerlabData: any, includeP
 
   const roleGroups = new Map<string, string[]>();
   Object.keys(nodesObj).forEach((nodeName) => {
-    const r = roleSource(nodesObj[nodeName]) || 'other';
+    const r = roleSource(nodesObj[nodeName]) || 'leaf';
     if (!roleGroups.has(r)) roleGroups.set(r, []);
     roleGroups.get(r)!.push(nodeName);
   });
@@ -291,12 +351,18 @@ export function containerlabToNetworkTopologyCrd(containerlabData: any, includeP
 
     if (ordered.length === 0) return;
 
+    // In CX mode, skip links that connect to linux nodes (they'll be processed as edge links)
+    if (mode === 'cx') {
+      const hasLinuxNode = ordered.some(ep => ep.node && linuxNodes.has(ep.node));
+      if (hasLinuxNode) return;
+    }
+
     if (ordered.length === 2) {
       const a = ordered[0];
       const b = ordered[1];
 
-      const local = a.node ? { node: a.node, interface: normalizeInterface(a.interface) } : undefined;
-      const remote = b.node ? { node: b.node, interface: normalizeInterface(b.interface) } : undefined;
+      const local = a.node ? { node: nodeNameMapping.get(a.node) || normalizeKubernetesName(a.node), interface: normalizeInterface(a.interface) } : undefined;
+      const remote = b.node ? { node: nodeNameMapping.get(b.node) || normalizeKubernetesName(b.node), interface: normalizeInterface(b.interface) } : undefined;
 
       const endpoints: any[] = [];
       if (local && remote) {
@@ -312,24 +378,36 @@ export function containerlabToNetworkTopologyCrd(containerlabData: any, includeP
         if (local.interface && remote.interface) {
           const li = (shortInterfaceName(local.interface) || local.interface).replace(/\//g, '-');
           const ri = (shortInterfaceName(remote.interface) || remote.interface).replace(/\//g, '-');
-          linkName = `${local.node}-${li}-${remote.node}-${ri}`;
+          linkName = normalizeKubernetesName(`${local.node}-${li}-${remote.node}-${ri}`);
         } else {
-          linkName = makeLinkName(local?.node, remote?.node, linkIdx + 1, undefined);
+          linkName = normalizeKubernetesName(makeLinkName(local?.node, remote?.node, linkIdx + 1, undefined));
         }
+      } else if (linkName) {
+        linkName = normalizeKubernetesName(linkName);
       }
 
+      const edgeId = link.labels?.['topobuilder.eda.labs/edgeId'] || `edge-${linkIdx + 1}`;
+      
       yamlLinks.push({
         name: linkName,
-        labels: link.labels && Object.keys(link.labels).length ? link.labels : undefined,
+        labels: {
+          ...(link.labels || {}),
+          'topobuilder.eda.labs/edgeId': edgeId,
+          'topobuilder.eda.labs/memberIndex': '0',
+          'topobuilder.eda.labs/srcHandle': 'left',
+          'topobuilder.eda.labs/dstHandle': 'right-target',
+        },
+        encapType: 'dot1q',
+        speed: '100G',
         template: link.template || 'isl',
         endpoints,
       });
       return;
     }
 
-    const endpoints: any[] = ordered.map((o) => (o.node ? { local: { node: o.node, interface: normalizeInterface(o.interface) } } : null)).filter(Boolean);
+    const endpoints: any[] = ordered.map((o) => (o.node ? { local: { node: nodeNameMapping.get(o.node) || normalizeKubernetesName(o.node), interface: normalizeInterface(o.interface) } } : null)).filter(Boolean);
     yamlLinks.push({
-        name: link.name || `esi-${linkIdx + 1}`,
+        name: normalizeKubernetesName(link.name || `esi-${linkIdx + 1}`),
         labels: link.labels && Object.keys(link.labels).length ? link.labels : undefined,
         template: link.template || undefined,
         endpoints,
@@ -387,21 +465,10 @@ export function containerlabToNetworkTopologyCrd(containerlabData: any, includeP
       }
       templates.push(tpl);
     });
-    // If no roles detected, provide common defaults
-    if (templates.length === 0) {
+    // If no roles detected or only leaf role exists, create only leaf template
+    if (templates.length === 0 || (templates.length === 1 && templates[0].name === 'leaf')) {
       const defaultLabel = chooseContainerlabLabelForMembers(Object.keys(nodesObj));
-      // add a bootstrap `default` template at the top
-      templates.unshift({
-        labels: {
-          containerlab: defaultLabel,
-          'eda.nokia.com/bootstrap': 'true',
-          'eda.nokia.com/security-profile': 'managed-bootstrap',
-        },
-        name: 'default',
-        nodeProfile: commonVersion ? `srlinux-ghcr-${commonVersion}` : 'srlinux-ghcr-25.10.1',
-        platform: '7220 IXR-D3L',
-      });
-
+      templates.length = 0; // Clear any existing templates
       templates.push({
         labels: {
           containerlab: defaultLabel,
@@ -412,17 +479,6 @@ export function containerlabToNetworkTopologyCrd(containerlabData: any, includeP
         name: 'leaf',
         nodeProfile: commonVersion ? `srlinux-ghcr-${commonVersion}` : 'srlinux-ghcr-25.10.1',
         platform: '7220 IXR-D3L',
-      });
-      templates.push({
-        labels: {
-          containerlab: defaultLabel,
-          'eda.nokia.com/role': 'spine',
-          'eda.nokia.com/security-profile': 'managed',
-          'topobuilder.eda.labs/name-prefix': 'spine',
-        },
-        name: 'spine',
-        nodeProfile: commonVersion ? `srlinux-ghcr-${commonVersion}` : 'srlinux-ghcr-25.10.1',
-        platform: '7220 IXR-D5',
       });
     }
     return templates;
@@ -451,12 +507,160 @@ export function containerlabToNetworkTopologyCrd(containerlabData: any, includeP
     }
   });
 
+  // CX mode: create simNodes and edge links from linux nodes
+  let simulation: any = undefined;
+  if (mode === 'cx' && linuxNodes.size > 0) {
+    // Create simNodeTemplates
+    const simNodeTemplates = [
+      {
+        name: 'testman-default',
+        type: 'TestMan',
+      },
+      {
+        name: 'multitool-default',
+        type: 'Linux',
+        image: 'ghcr.io/srl-labs/network-multitool:latest',
+      },
+    ];
+
+    // Create simNodes from linux nodes
+    const simNodes: any[] = [];
+    const linuxNodeMap = new Map<string, number>(); // Map linux node names to simNode indices
+    
+    Array.from(linuxNodes).forEach((linuxNodeName, idx) => {
+      const linuxNode = nodesObj[linuxNodeName];
+      const labels = linuxNode?.labels || {};
+      
+      // Determine template based on node properties
+      const image = (linuxNode?.image || '').toString().toLowerCase();
+      const template = image.includes('testman') ? 'testman-default' : 'multitool-default';
+      const simNodeName = normalizeKubernetesName(linuxNodeName);
+      
+      simNodes.push({
+        name: simNodeName,
+        template,
+        labels: {
+          ...labels,
+        },
+      });
+      
+      linuxNodeMap.set(linuxNodeName, idx);
+    });
+
+    // Create edge links by finding links that connect to linux nodes
+    const edgeLinks: any[] = [];
+    linksArr.forEach((link: any, linkIdx: number) => {
+      let eps = link.endpoints || {};
+      
+      // Parse endpoints
+      let ordered: Array<{ node?: string; interface?: string; raw?: any }> = [];
+      if (Array.isArray(eps)) {
+        ordered = eps.map((ep: any) => {
+          if (typeof ep === 'string') {
+            const [node, iface] = ep.split(':');
+            return { node: node?.trim(), interface: iface?.trim() };
+          } else if (ep && typeof ep === 'object') {
+            return { node: ep.node, interface: ep.interface, raw: ep };
+          }
+          return {};
+        });
+      } else {
+        const keys = Object.keys(eps);
+        ordered = keys.map(k => ({ node: eps[k]?.node, interface: eps[k]?.interface, raw: eps[k] }));
+      }
+
+      // Check if any endpoint is a linux node
+      const localEndpoint = ordered[0];
+      const remoteEndpoint = ordered[1];
+      
+      const isLocalLinux = localEndpoint?.node && linuxNodes.has(localEndpoint.node);
+      const isRemoteLinux = remoteEndpoint?.node && linuxNodes.has(remoteEndpoint.node);
+      
+      if (!isLocalLinux && !isRemoteLinux) {
+        return; // Not an edge link, skip
+      }
+
+      // Determine which is the network node and which is the sim node
+      let networkEndpoint = isLocalLinux ? remoteEndpoint : localEndpoint;
+      let simEndpoint = isLocalLinux ? localEndpoint : remoteEndpoint;
+      
+      if (!networkEndpoint?.node || !simEndpoint?.node) {
+        return; // Invalid link
+      }
+
+      const simNodeIndex = linuxNodeMap.get(simEndpoint.node);
+      if (simNodeIndex === undefined) {
+        return; // SimNode not found
+      }
+
+      // Get normalized names
+      const localNodeName = nodeNameMapping.get(networkEndpoint.node) || normalizeKubernetesName(networkEndpoint.node);
+      const simNodeName = normalizeKubernetesName(simEndpoint.node);
+      
+      // Create edge link with proper structure using same naming convention as regular links
+      const edgeId = `edge-${linkIdx + 1}`;
+      let linkName = link.name;
+      if (!linkName) {
+        const localIface = networkEndpoint.interface;
+        const simIface = simEndpoint.interface;
+        if (localIface && simIface) {
+          const li = (shortInterfaceName(localIface) || localIface).replace(/\//g, '-');
+          const si = (shortInterfaceName(simIface) || simIface).replace(/\//g, '-');
+          linkName = normalizeKubernetesName(`${localNodeName}-${li}-${simNodeName}-${si}`);
+        } else {
+          linkName = normalizeKubernetesName(`${localNodeName}-${simNodeName}-${linkIdx + 1}`);
+        }
+      } else {
+        linkName = normalizeKubernetesName(linkName);
+      }
+      
+      const edgeLink = {
+        name: linkName,
+        template: 'edge',
+        encapType: 'dot1q',
+        speed: '25G',
+        labels: {
+          ...(link.labels || {}),
+          'topobuilder.eda.labs/edgeId': edgeId,
+          'topobuilder.eda.labs/memberIndex': '0',
+          'topobuilder.eda.labs/srcHandle': 'left',
+          'topobuilder.eda.labs/dstHandle': 'top-target',
+        },
+        endpoints: [
+          {
+            local: {
+              node: localNodeName,
+              interface: normalizeInterface(networkEndpoint.interface),
+            },
+            sim: {
+              simNode: simNodeName,
+              simNodeInterface: normalizeInterface(simEndpoint.interface) || 'eth2',
+            },
+          },
+        ],
+      };
+      
+      edgeLinks.push(edgeLink);
+    });
+
+    // Build simulation section only if we have simNodes
+    if (simNodes.length > 0) {
+      simulation = {
+        simNodeTemplates,
+        simNodes,
+      };
+    }
+
+    // Add edge links to yamlLinks
+    yamlLinks.push(...edgeLinks);
+  }
+
   const crd = {
     apiVersion: 'topologies.eda.nokia.com/v1alpha1',
     kind: 'NetworkTopology',
     metadata: { name: metadataName, namespace: 'eda' },
     spec: {
-      operation: 'create',
+      operation: 'replaceAll',
       // Generate nodeTemplates from discovered roles (provide sensible defaults)
       nodeTemplates: nodeTemplatesArray,
       nodes: networkNodes,
@@ -464,18 +668,20 @@ export function containerlabToNetworkTopologyCrd(containerlabData: any, includeP
         {
           name: 'isl',
           type: 'interSwitch',
-          speed: '25G',
-          encapType: 'null',
+          speed: '100G',
+          encapType: 'dot1q',
           labels: { 'eda.nokia.com/role': 'interSwitch' },
         },
         {
           name: 'edge',
           type: 'edge',
+          speed: '25G',
           encapType: 'dot1q',
           labels: { 'eda.nokia.com/role': 'edge' },
         },
       ],
       links: yamlLinks,
+      ...(simulation && { simulation }),
     },
   };
 

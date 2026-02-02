@@ -98,7 +98,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
   const fileInputRef = (null as unknown) as HTMLInputElement | null;
   const [importDialogOpen, setImportDialogOpen] = useState(false);
   const [pendingParsedJson, setPendingParsedJson] = useState<any | null>(null);
-  const [includeProductionAddr, setIncludeProductionAddr] = useState(true);
+  const [importMode, setImportMode] = useState<'clab' | 'cx'>('clab');
 
   const handleImportClick = () => {
     // trigger file input click
@@ -154,8 +154,8 @@ export default function AppLayout({ children }: AppLayoutProps) {
     // Use setTimeout to ensure dialog closes before heavy processing
     setTimeout(() => {
       try {
-        console.log('Starting containerlab import...');
-        const yaml = containerlabToNetworkTopologyCrd(pendingParsedJson, includeProductionAddr);
+        console.log(`Starting containerlab import in ${importMode} mode...`);
+        const yaml = containerlabToNetworkTopologyCrd(pendingParsedJson, importMode);
         console.log('Converted to NetworkTopology YAML, importing...');
         
         // Clear existing topology first by importing empty YAML
@@ -379,15 +379,26 @@ export default function AppLayout({ children }: AppLayoutProps) {
           </DialogActions>
         </Dialog>
 
-        <Dialog open={importDialogOpen} onClose={handleImportCancel} maxWidth="xs" fullWidth>
+        <Dialog open={importDialogOpen} onClose={handleImportCancel} maxWidth="sm" fullWidth>
           <DialogTitle>Import containerlab topology</DialogTitle>
           <DialogContent>
             <Container>
+              <Typography variant="subtitle2" sx={{ mb: 1 }}>Import Mode:</Typography>
               <FormControlLabel
-                control={<Checkbox checked={includeProductionAddr} onChange={(e) => setIncludeProductionAddr(e.target.checked)} />}
-                label="Include production addresses and node metadata"
+                control={<input type="radio" checked={importMode === 'clab'} onChange={() => setImportMode('clab')} />}
+                label="Clab (Containerlab)"
               />
-              <Typography variant="caption">If enabled, production IPv4 and basic node metadata (platform, version, template) will be imported when available.</Typography>
+              <Typography variant="caption" display="block" sx={{ ml: 4, mb: 2 }}>
+                Import production addresses and metadata. Ignores Linux nodes (kind: linux).
+              </Typography>
+              
+              <FormControlLabel
+                control={<input type="radio" checked={importMode === 'cx'} onChange={() => setImportMode('cx')} />}
+                label="Digital Twin CX"
+              />
+              <Typography variant="caption" display="block" sx={{ ml: 4 }}>
+                Converts Linux nodes to simulation nodes with edge links.
+              </Typography>
             </Container>
           </DialogContent>
           <DialogActions>

@@ -1903,8 +1903,8 @@ export const useTopologyStore = create<TopologyStore>()(
           if (parsed.metadata?.namespace) {
             updates.namespace = parsed.metadata.namespace;
           }
-          // Default imported operation to 'create' unless explicitly provided
-          updates.operation = options?.forceCreate ? 'create' : ((parsed.spec?.operation as Operation) || 'create');
+          // Use operation from imported YAML, default to 'replaceAll'
+          updates.operation = (parsed.spec?.operation as Operation) || 'replaceAll';
 
           // Update templates
           const nodeTemplates: NodeTemplate[] = parsed.spec?.nodeTemplates || [];
@@ -2157,7 +2157,7 @@ export const useTopologyStore = create<TopologyStore>()(
             };
           } else {
             updates.simulation = {
-              simNodeTemplates: get().simulation.simNodeTemplates,
+              simNodeTemplates: [],
               simNodes: [],
             };
           }
