@@ -43,7 +43,7 @@ import { useTopologyStore } from '../lib/store';
 import { exportToYaml, downloadYaml } from '../lib/converter';
 import { validateNetworkTopology, type ValidationResult } from '../lib/validate';
 import { TITLE, ERROR_DISPLAY_DURATION_MS } from '../lib/constants';
-import containerlabJsonToNetworkTopologyCrd from '../lib/containerlab';
+import containerlabToNetworkTopologyCrd from '../lib/containerlab';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -111,11 +111,30 @@ export default function AppLayout({ children }: AppLayoutProps) {
     if (!file) return;
     try {
       const text = await file.text();
-      const parsed = JSON.parse(text);
+      let parsed;
+      
+      // Try to detect file format and parse accordingly
+      if (file.name.endsWith('.yaml') || file.name.endsWith('.yml')) {
+        // Parse as YAML
+        const yaml = await import('js-yaml');
+        parsed = yaml.load(text);
+      } else if (file.name.endsWith('.json')) {
+        // Parse as JSON
+        parsed = JSON.parse(text);
+      } else {
+        // Try YAML first, fallback to JSON
+        try {
+          const yaml = await import('js-yaml');
+          parsed = yaml.load(text);
+        } catch {
+          parsed = JSON.parse(text);
+        }
+      }
+      
       setPendingParsedJson(parsed);
       setImportDialogOpen(true);
     } catch (err: unknown) {
-      setError((err as Error)?.message || 'Failed to parse file');
+      setError((err as Error)?.message || 'Failed to parse file. Please ensure it is a valid YAML or JSON containerlab topology file.');
     } finally {
       // reset input
       const el = document.getElementById('topo-import-input') as HTMLInputElement | null;
@@ -128,15 +147,39 @@ export default function AppLayout({ children }: AppLayoutProps) {
       setImportDialogOpen(false);
       return;
     }
-    try {
-      const yaml = containerlabJsonToNetworkTopologyCrd(pendingParsedJson, includeProductionAddr);
-      const ok = importFromYaml(yaml, { forceCreate: true });
-      if (!ok) setError('Failed to import topology');
-    } catch (e: unknown) {
-      setError((e as Error)?.message || 'Import failed');
-    }
-    setPendingParsedJson(null);
+    
+    // Close dialog first to prevent UI blocking
     setImportDialogOpen(false);
+    
+    // Use setTimeout to ensure dialog closes before heavy processing
+    setTimeout(() => {
+      try {
+        console.log('Starting containerlab import...');
+        const yaml = containerlabToNetworkTopologyCrd(pendingParsedJson, includeProductionAddr);
+        console.log('Converted to NetworkTopology YAML, importing...');
+        
+        // Clear existing topology first by importing empty YAML
+        console.log('Clearing existing topology...');
+        importFromYaml('', { forceCreate: true });
+        
+        // Small delay to ensure state is cleared
+        setTimeout(() => {
+          const ok = importFromYaml(yaml, { forceCreate: true });
+          if (!ok) {
+            console.error('Import returned false');
+            setError('Failed to import topology');
+          } else {
+            console.log('Import successful');
+          }
+          setPendingParsedJson(null);
+        }, 50);
+      } catch (e: unknown) {
+        console.error('Import error:', e);
+        const errorMessage = e instanceof Error ? e.message : String(e);
+        setError(`Import failed: ${errorMessage}`);
+        setPendingParsedJson(null);
+      }
+    }, 100);
   };
 
   const handleImportCancel = () => {
@@ -247,12 +290,12 @@ export default function AppLayout({ children }: AppLayoutProps) {
                   <PhotoCameraIcon fontSize="small" />
                 </IconButton>
               </Tooltip>
-              <Tooltip title="Import containerlab JSON">
+              <Tooltip title="Import containerlab topology (YAML/JSON)">
                 <IconButton size="small" onClick={handleImportClick} sx={{ color: 'white' }}>
                   <UploadIcon fontSize="small" />
                 </IconButton>
               </Tooltip>
-              <input id="topo-import-input" accept="application/json" style={{ display: 'none' }} type="file" onChange={handleFileChange} />
+              <input id="topo-import-input" accept=".yaml,.yml,.json,application/json,application/x-yaml,text/yaml" style={{ display: 'none' }} type="file" onChange={handleFileChange} />
               <Tooltip title={darkMode ? 'Light mode' : 'Dark mode'}>
                 <IconButton size="small" onClick={() => setDarkMode(!darkMode)} sx={{ color: 'white' }}>
                   {darkMode ? <LightModeIcon fontSize="small" /> : <DarkModeIcon fontSize="small" />}
@@ -349,7 +392,7 @@ export default function AppLayout({ children }: AppLayoutProps) {
           </DialogContent>
           <DialogActions>
             <Button onClick={handleImportCancel}>Cancel</Button>
-            <Button onClick={handleImportConfirm} variant="contained">Import</Button>
+            <Button onClick={handleImportConfirm} variant="contained" type="button">Import</Button>
           </DialogActions>
         </Dialog>
 

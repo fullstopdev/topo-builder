@@ -20,18 +20,20 @@ function makeLinkName(localNode: string | undefined, remoteNode: string | undefi
   return `link-${index}`;
 }
 
-export function containerlabJsonToNetworkTopologyCrd(containerJson: any, includeProduction = false): string {
-  const metadataName = containerJson.name || 'containerlab-topology';
+export function containerlabToNetworkTopologyCrd(containerlabData: any, includeProduction = false): string {
+  const metadataName = containerlabData.name || 'containerlab-topology';
 
-  const nodesObj = containerJson.nodes || {};
-  const linksArr = containerJson.links || [];
+  // Support both direct format (nodes/links at root) and wrapped format (topology.nodes/topology.links)
+  const topology = containerlabData.topology || containerlabData;
+  const nodesObj = topology.nodes || {};
+  const linksArr = topology.links || [];
 
   const networkNodes = Object.keys(nodesObj).map((nodeName) => {
     const node = nodesObj[nodeName] || {};
     const labels = node.labels || {};
     const networkNode: any = { name: nodeName };
     if (node.kind) networkNode.platform = node.kind;
-    if (node.type) networkNode.nodeProfile = node.type;
+    // Don't set nodeProfile from node.type - it's only for platform detection
     if (Object.keys(labels).length) {
       // Filter out labels whose values look like file paths (contain '/')
       const filtered: Record<string, any> = {};
@@ -55,8 +57,8 @@ export function containerlabJsonToNetworkTopologyCrd(containerJson: any, include
     else if (img.includes('eos') || kindLower.includes('arista') || labelsText.includes('eos')) nodeContainerlabLabel = 'managedeos';
     networkNode.labels = networkNode.labels || {};
     networkNode.labels['containerlab'] = nodeContainerlabLabel;
-    // prefer a clearer platform if available in labels or image
-    const rawClabType = (labels['clab-node-type'] || node.kind || '').toString().toLowerCase();
+    // prefer a clearer platform if available in labels, type field, or image
+    const rawClabType = (node.type || labels['clab-node-type'] || node.kind || '').toString().toLowerCase();
     const mapClabTypeToPlatform = (val: string | undefined) => {
       if (!val) return undefined;
       if (val.includes('ixrd1') || val.includes('ixr-d1') || val.includes('d1')) return '7220 IXR-D1';
@@ -78,31 +80,33 @@ export function containerlabJsonToNetworkTopologyCrd(containerJson: any, include
       }
     }
 
-    // Always extract version from container image if present so nodeProfile/version are accurate
+    // Always extract version from container image if present
     if (typeof node.image === 'string') {
       const m = node.image.match(/:(.+)$/);
       if (m) networkNode.version = m[1];
     }
+    
+    // Store version temporarily - we'll decide later if nodeProfile needs to be set
+    // based on whether it differs from the template version
 
     if (includeProduction) {
-      // npp, onBoarded, operatingSystem, productionAddress, template
-      networkNode.npp = { mode: 'normal' };
-      networkNode.onBoarded = false;
-      networkNode.operatingSystem = 'srl';
-      // template: use role or labels to infer
-      const role = (labels.role || labels.Role || '').toString().toLowerCase();
-      networkNode.template = role.includes('leaf') ? 'leaf' : (role || undefined);
       // production address
       // productionAddress should come from the node's management IPv4 address
       const ipv4 = node['mgmt-ipv4-address'] || node['mgmt-ipv4'] || labels['mgmt-ipv4-address'] || labels['clab-mgmt-net-bridge'] || undefined;
       if (ipv4) {
         networkNode.productionAddress = { ipv4 };
       }
+      
+      // Only include production metadata if we have production address or other production data
+      networkNode.npp = { mode: 'normal' };
+      networkNode.onBoarded = false;
+      networkNode.operatingSystem = 'srl';
+      // template: use role or labels to infer
+      const role = (labels.role || labels.Role || '').toString().toLowerCase();
+      networkNode.template = role.includes('leaf') ? 'leaf' : (role || undefined);
     }
-    // If we detected a version and no explicit nodeProfile, set a matching srlinux-ghcr nodeProfile
-    if (!networkNode.nodeProfile && networkNode.version) {
-      networkNode.nodeProfile = `srlinux-ghcr-${networkNode.version}`;
-    }
+    // Don't set nodeProfile here - we'll set it later only if the node's version
+    // differs from its template's version
     return networkNode;
   });
 
@@ -188,10 +192,11 @@ export function containerlabJsonToNetworkTopologyCrd(containerJson: any, include
     for (const nm of memberNames) {
       const src = nodesObj[nm] || {};
       const labels = src.labels || {};
+      const nodeType = (src.type || '').toString().toLowerCase();
       const image = (src.image || '').toString().toLowerCase();
       const kind = (src.kind || '').toString().toLowerCase();
       const clab = (labels['clab-node-type'] || '').toString().toLowerCase();
-      const combined = (image + ' ' + kind + ' ' + clab).toLowerCase();
+      const combined = (nodeType + ' ' + image + ' ' + kind + ' ' + clab).toLowerCase();
       if (combined.includes('ixrd1') || combined.includes('ixr-d1') || combined.includes('d1')) d1++;
       if (combined.includes('ixrd3l') || combined.includes('ixr-d3l') || combined.includes('d3l')) d3++;
       if (combined.includes('ixrd5') || combined.includes('ixr-d5') || combined.includes('d5')) d5++;
@@ -261,10 +266,28 @@ export function containerlabJsonToNetworkTopologyCrd(containerJson: any, include
   const yamlLinks: any[] = [];
 
   linksArr.forEach((link: any, linkIdx: number) => {
-    const eps = link.endpoints || {};
-    const keys = Object.keys(eps);
-
-    const ordered: Array<{ node?: string; interface?: string; raw?: any }> = keys.map(k => ({ node: eps[k]?.node, interface: eps[k]?.interface, raw: eps[k] }));
+    let eps = link.endpoints || {};
+    
+    // Handle both formats:
+    // 1. Array format: ["node1:interface1", "node2:interface2"]
+    // 2. Object format: { "0": { node: "node1", interface: "interface1" }, ... }
+    let ordered: Array<{ node?: string; interface?: string; raw?: any }> = [];
+    
+    if (Array.isArray(eps)) {
+      // Parse string format "node:interface"
+      ordered = eps.map((ep: any) => {
+        if (typeof ep === 'string') {
+          const [node, iface] = ep.split(':');
+          return { node: node?.trim(), interface: iface?.trim() };
+        } else if (ep && typeof ep === 'object') {
+          return { node: ep.node, interface: ep.interface, raw: ep };
+        }
+        return {};
+      });
+    } else {
+      const keys = Object.keys(eps);
+      ordered = keys.map(k => ({ node: eps[k]?.node, interface: eps[k]?.interface, raw: eps[k] }));
+    }
 
     if (ordered.length === 0) return;
 
@@ -287,8 +310,8 @@ export function containerlabJsonToNetworkTopologyCrd(containerJson: any, include
       let linkName = link.name;
       if (!linkName && local?.node && remote?.node) {
         if (local.interface && remote.interface) {
-          const li = shortInterfaceName(local.interface) || local.interface;
-          const ri = shortInterfaceName(remote.interface) || remote.interface;
+          const li = (shortInterfaceName(local.interface) || local.interface).replace(/\//g, '-');
+          const ri = (shortInterfaceName(remote.interface) || remote.interface).replace(/\//g, '-');
           linkName = `${local.node}-${li}-${remote.node}-${ri}`;
         } else {
           linkName = makeLinkName(local?.node, remote?.node, linkIdx + 1, undefined);
@@ -313,6 +336,121 @@ export function containerlabJsonToNetworkTopologyCrd(containerJson: any, include
     });
   });
 
+  // Build nodeTemplates first, then check if individual nodes need nodeProfile override
+  const nodeTemplatesArray = ((): any[] => {
+    const roles = new Set<string>();
+    Object.keys(nodesObj).forEach((n) => {
+      const r = (nodesObj[n]?.labels?.role || nodesObj[n]?.labels?.Role || '').toString().toLowerCase() || '';
+      if (r) roles.add(r);
+    });
+    const templates: any[] = [];
+    roles.forEach((role) => {
+      // Determine versions for this role from the discovered nodes
+      const members = roleGroups.get(role) || [];
+      const roleVersions = new Set<string>();
+      members.forEach((nm) => {
+        const idx = nodeNameToIndex.get(nm);
+        if (idx !== undefined) {
+          const v = (networkNodes[idx] as any).version;
+          if (v) roleVersions.add(v);
+        }
+      });
+      const roleVersion = roleVersions.size === 1 ? Array.from(roleVersions)[0] : commonVersion;
+
+      const containerlabLabelForRole = chooseContainerlabLabelForMembers(members);
+      const labelsObj: any = {
+        containerlab: containerlabLabelForRole,
+        'eda.nokia.com/role': role,
+        'eda.nokia.com/security-profile': 'managed',
+        'topobuilder.eda.labs/name-prefix': role,
+      };
+      const tpl: any = {
+        labels: labelsObj,
+        name: role,
+        nodeProfile: roleVersion ? `srlinux-ghcr-${roleVersion}` : 'srlinux-ghcr-25.10.1',
+      };
+      // Prefer platform inferred from member nodes; fall back to role heuristics
+      try {
+        const inferredPlatform = choosePlatformForMembers(members || []);
+        if (inferredPlatform) tpl.platform = inferredPlatform;
+        else {
+          if (role.includes('border') || role.includes('borderleaf')) tpl.platform = '7220 IXR-D5';
+          else if (role.includes('superspine') || role.includes('superspines')) tpl.platform = '7220 IXR-D5';
+          else if (role.includes('spine') || role.includes('spines')) tpl.platform = '7220 IXR-D5';
+          else if (role.includes('leaf')) tpl.platform = '7220 IXR-D3L';
+        }
+      } catch (e) {
+        if (role.includes('border') || role.includes('borderleaf')) tpl.platform = '7220 IXR-D5';
+        else if (role.includes('superspine') || role.includes('superspines')) tpl.platform = '7220 IXR-D5';
+        else if (role.includes('spine') || role.includes('spines')) tpl.platform = '7220 IXR-D5';
+        else if (role.includes('leaf')) tpl.platform = '7220 IXR-D3L';
+      }
+      templates.push(tpl);
+    });
+    // If no roles detected, provide common defaults
+    if (templates.length === 0) {
+      const defaultLabel = chooseContainerlabLabelForMembers(Object.keys(nodesObj));
+      // add a bootstrap `default` template at the top
+      templates.unshift({
+        labels: {
+          containerlab: defaultLabel,
+          'eda.nokia.com/bootstrap': 'true',
+          'eda.nokia.com/security-profile': 'managed-bootstrap',
+        },
+        name: 'default',
+        nodeProfile: commonVersion ? `srlinux-ghcr-${commonVersion}` : 'srlinux-ghcr-25.10.1',
+        platform: '7220 IXR-D3L',
+      });
+
+      templates.push({
+        labels: {
+          containerlab: defaultLabel,
+          'eda.nokia.com/role': 'leaf',
+          'eda.nokia.com/security-profile': 'managed',
+          'topobuilder.eda.labs/name-prefix': 'leaf',
+        },
+        name: 'leaf',
+        nodeProfile: commonVersion ? `srlinux-ghcr-${commonVersion}` : 'srlinux-ghcr-25.10.1',
+        platform: '7220 IXR-D3L',
+      });
+      templates.push({
+        labels: {
+          containerlab: defaultLabel,
+          'eda.nokia.com/role': 'spine',
+          'eda.nokia.com/security-profile': 'managed',
+          'topobuilder.eda.labs/name-prefix': 'spine',
+        },
+        name: 'spine',
+        nodeProfile: commonVersion ? `srlinux-ghcr-${commonVersion}` : 'srlinux-ghcr-25.10.1',
+        platform: '7220 IXR-D5',
+      });
+    }
+    return templates;
+  })();
+
+  // Now set nodeProfile on individual nodes only if their version differs from their template's version
+  networkNodes.forEach((networkNode: any) => {
+    if (!networkNode.version) return; // No version detected, skip
+    
+    // Find the template for this node based on role
+    const nodeRole = (networkNode.labels?.role || networkNode.labels?.Role || '').toString().toLowerCase();
+    const template = nodeTemplatesArray.find(t => t.name === nodeRole);
+    
+    if (template) {
+      // Extract version from template's nodeProfile (format: srlinux-ghcr-VERSION)
+      const templateProfileMatch = template.nodeProfile?.match(/srlinux-ghcr-(.+)$/);
+      const templateVersion = templateProfileMatch ? templateProfileMatch[1] : null;
+      
+      // Only set nodeProfile if versions differ
+      if (templateVersion && networkNode.version !== templateVersion) {
+        networkNode.nodeProfile = `srlinux-ghcr-${networkNode.version}`;
+      }
+    } else if (networkNode.version) {
+      // No matching template found, set nodeProfile based on node's version
+      networkNode.nodeProfile = `srlinux-ghcr-${networkNode.version}`;
+    }
+  });
+
   const crd = {
     apiVersion: 'topologies.eda.nokia.com/v1alpha1',
     kind: 'NetworkTopology',
@@ -320,96 +458,7 @@ export function containerlabJsonToNetworkTopologyCrd(containerJson: any, include
     spec: {
       operation: 'create',
       // Generate nodeTemplates from discovered roles (provide sensible defaults)
-      nodeTemplates: ((): any[] => {
-        const roles = new Set<string>();
-        Object.keys(nodesObj).forEach((n) => {
-          const r = (nodesObj[n]?.labels?.role || nodesObj[n]?.labels?.Role || '').toString().toLowerCase() || '';
-          if (r) roles.add(r);
-        });
-        const templates: any[] = [];
-        roles.forEach((role) => {
-          // Determine versions for this role from the discovered nodes
-          const members = roleGroups.get(role) || [];
-          const roleVersions = new Set<string>();
-          members.forEach((nm) => {
-            const idx = nodeNameToIndex.get(nm);
-            if (idx !== undefined) {
-              const v = (networkNodes[idx] as any).version;
-              if (v) roleVersions.add(v);
-            }
-          });
-          const roleVersion = roleVersions.size === 1 ? Array.from(roleVersions)[0] : commonVersion;
-
-          const containerlabLabelForRole = chooseContainerlabLabelForMembers(members);
-          const labelsObj: any = {
-            containerlab: containerlabLabelForRole,
-            'eda.nokia.com/role': role,
-            'eda.nokia.com/security-profile': 'managed',
-            'topobuilder.eda.labs/name-prefix': role,
-          };
-          const tpl: any = {
-            labels: labelsObj,
-            name: role,
-            nodeProfile: roleVersion ? `srlinux-ghcr-${roleVersion}` : 'srlinux-ghcr-25.10.1',
-          };
-          // Prefer platform inferred from member nodes; fall back to role heuristics
-          try {
-            const inferredPlatform = choosePlatformForMembers(members || []);
-            if (inferredPlatform) tpl.platform = inferredPlatform;
-            else {
-              if (role.includes('border') || role.includes('borderleaf')) tpl.platform = '7220 IXR-D5';
-              else if (role.includes('superspine') || role.includes('superspines')) tpl.platform = '7220 IXR-D5';
-              else if (role.includes('spine') || role.includes('spines')) tpl.platform = '7220 IXR-D5';
-              else if (role.includes('leaf')) tpl.platform = '7220 IXR-D3L';
-            }
-          } catch (e) {
-            if (role.includes('border') || role.includes('borderleaf')) tpl.platform = '7220 IXR-D5';
-            else if (role.includes('superspine') || role.includes('superspines')) tpl.platform = '7220 IXR-D5';
-            else if (role.includes('spine') || role.includes('spines')) tpl.platform = '7220 IXR-D5';
-            else if (role.includes('leaf')) tpl.platform = '7220 IXR-D3L';
-          }
-          templates.push(tpl);
-        });
-        // If no roles detected, provide common defaults
-        if (templates.length === 0) {
-          const defaultLabel = chooseContainerlabLabelForMembers(Object.keys(nodesObj));
-          // add a bootstrap `default` template at the top
-          templates.unshift({
-            labels: {
-              containerlab: defaultLabel,
-              'eda.nokia.com/bootstrap': 'true',
-              'eda.nokia.com/security-profile': 'managed-bootstrap',
-            },
-            name: 'default',
-            nodeProfile: commonVersion ? `srlinux-ghcr-${commonVersion}` : 'srlinux-ghcr-25.10.1',
-            platform: '7220 IXR-D3L',
-          });
-
-          templates.push({
-            labels: {
-              containerlab: defaultLabel,
-              'eda.nokia.com/role': 'leaf',
-              'eda.nokia.com/security-profile': 'managed',
-              'topobuilder.eda.labs/name-prefix': 'leaf',
-            },
-            name: 'leaf',
-            nodeProfile: commonVersion ? `srlinux-ghcr-${commonVersion}` : 'srlinux-ghcr-25.10.1',
-            platform: '7220 IXR-D3L',
-          });
-          templates.push({
-            labels: {
-              containerlab: defaultLabel,
-              'eda.nokia.com/role': 'spine',
-              'eda.nokia.com/security-profile': 'managed',
-              'topobuilder.eda.labs/name-prefix': 'spine',
-            },
-            name: 'spine',
-            nodeProfile: commonVersion ? `srlinux-ghcr-${commonVersion}` : 'srlinux-ghcr-25.10.1',
-            platform: '7220 IXR-D5',
-          });
-        }
-        return templates;
-      })(),
+      nodeTemplates: nodeTemplatesArray,
       nodes: networkNodes,
       linkTemplates: [
         {
@@ -490,4 +539,4 @@ export function containerlabJsonToNetworkTopologyCrd(containerJson: any, include
   return outLines.join('\n');
 }
 
-export default containerlabJsonToNetworkTopologyCrd;
+export default containerlabToNetworkTopologyCrd;
