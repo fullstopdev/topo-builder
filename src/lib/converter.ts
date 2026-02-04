@@ -81,8 +81,9 @@ export function buildCrd(options: ExportOptions): NetworkTopologyCrd {
     };
 
     const labels: Record<string, string> = {};
-    labels[LABEL_POS_X] = String(Math.round(node.position.x));
-    labels[LABEL_POS_Y] = String(Math.round(node.position.y));
+    // Ensure position labels are non-negative
+    labels[LABEL_POS_X] = String(Math.max(0, Math.round(node.position.x)));
+    labels[LABEL_POS_Y] = String(Math.max(0, Math.round(node.position.y)));
 
     if (node.data.template) {
       networkNode.template = node.data.template;
@@ -90,9 +91,8 @@ export function buildCrd(options: ExportOptions): NetworkTopologyCrd {
       if (node.data.platform) {
         networkNode.platform = node.data.platform;
       }
-      if (node.data.nodeProfile) {
-        networkNode.nodeProfile = node.data.nodeProfile;
-      }
+      // Intentionally do NOT set `nodeProfile` on individual nodes here.
+      // Node profiles should be kept on `nodeTemplates` only.
     }
 
     if (node.data.labels) {
@@ -117,10 +117,9 @@ export function buildCrd(options: ExportOptions): NetworkTopologyCrd {
       networkNode.version = anyData.version;
     }
 
-    // If version is present but no explicit nodeProfile, set nodeProfile to match the version
-    if (!networkNode.nodeProfile && anyData.version) {
-      networkNode.nodeProfile = `srlinux-ghcr-${anyData.version}`;
-    }
+    // Do NOT set `nodeProfile` at the node level based on version. Keep profiles
+    // only in `nodeTemplates` so imported topologies reference profiles via
+    // templates rather than per-node overrides.
 
     networkNode.labels = labels;
     return networkNode;

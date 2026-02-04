@@ -1930,13 +1930,11 @@ export const useTopologyStore = create<TopologyStore>()(
               const id = existingId || `node-${nodeIdCounter++}`;
 
               let platform: string | undefined = node.platform;
-              let nodeProfile: string | undefined = node.nodeProfile;
 
               // If node references a template, get properties from template
               if (node.template && nodeTemplateMap.has(node.template)) {
                 const template = nodeTemplateMap.get(node.template)!;
                 if (!platform && template.platform) platform = template.platform;
-                if (!nodeProfile && template.nodeProfile) nodeProfile = template.nodeProfile;
               }
 
               // Get position from labels or fall back to existing/default
@@ -1962,7 +1960,8 @@ export const useTopologyStore = create<TopologyStore>()(
                   name: node.name,
                   platform,
                   template: node.template,
-                  nodeProfile,
+                  // Intentionally do not set `nodeProfile` on individual nodes here.
+                  // Keep nodeProfile information on `nodeTemplates` only.
                   labels: hasUserLabels ? userLabels : undefined,
                   // preserve optional metadata if present in YAML
                   productionAddress: (node as any).productionAddress,

@@ -277,8 +277,8 @@ export function containerlabToNetworkTopologyCrd(containerlabData: any, mode: 'c
       if (idx === undefined) return;
       const target = networkNodes[idx];
       target.labels = target.labels || {};
-      if (x !== undefined) target.labels[LABEL_POS_X] = String(x);
-      if (y !== undefined) target.labels[LABEL_POS_Y] = String(y);
+      if (x !== undefined) target.labels[LABEL_POS_X] = String(Math.max(0, Number(x)));
+      if (y !== undefined) target.labels[LABEL_POS_Y] = String(Math.max(0, Number(y)));
     }
   });
 
@@ -297,8 +297,8 @@ export function containerlabToNetworkTopologyCrd(containerlabData: any, mode: 'c
       const x = startX + idx * hSpacing;
       // invert level so smallest levelIdx sits at bottom
       const y = (maxLevel - levelIdx) * vSpacing;
-      target.labels[LABEL_POS_X] = String(x);
-      target.labels[LABEL_POS_Y] = String(y);
+      target.labels[LABEL_POS_X] = String(Math.max(0, Number(x)));
+      target.labels[LABEL_POS_Y] = String(Math.max(0, Number(y)));
     });
   });
 
@@ -484,28 +484,10 @@ export function containerlabToNetworkTopologyCrd(containerlabData: any, mode: 'c
     return templates;
   })();
 
-  // Now set nodeProfile on individual nodes only if their version differs from their template's version
-  networkNodes.forEach((networkNode: any) => {
-    if (!networkNode.version) return; // No version detected, skip
-    
-    // Find the template for this node based on role
-    const nodeRole = (networkNode.labels?.role || networkNode.labels?.Role || '').toString().toLowerCase();
-    const template = nodeTemplatesArray.find(t => t.name === nodeRole);
-    
-    if (template) {
-      // Extract version from template's nodeProfile (format: srlinux-ghcr-VERSION)
-      const templateProfileMatch = template.nodeProfile?.match(/srlinux-ghcr-(.+)$/);
-      const templateVersion = templateProfileMatch ? templateProfileMatch[1] : null;
-      
-      // Only set nodeProfile if versions differ
-      if (templateVersion && networkNode.version !== templateVersion) {
-        networkNode.nodeProfile = `srlinux-ghcr-${networkNode.version}`;
-      }
-    } else if (networkNode.version) {
-      // No matching template found, set nodeProfile based on node's version
-      networkNode.nodeProfile = `srlinux-ghcr-${networkNode.version}`;
-    }
-  });
+  // Do NOT set `nodeProfile` on individual nodes here. Keep nodeProfile inside
+  // `nodeTemplates` only. Node-level overrides are intentionally omitted so
+  // imported CLAB topologies reference profiles via templates.
+  // (networkNodes left unchanged)
 
   // CX mode: create simNodes and edge links from linux nodes
   let simulation: any = undefined;
